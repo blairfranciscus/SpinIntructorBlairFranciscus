@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Start Your Class</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      const { useEffect, useMemo, useState } = React;
+
+      const pageOrder = ["home", "set", "beat", "movement", "finish", "wireframe"];
+      const mainPages = [
+        { id: "home", short: "Home", label: "Start", eyebrow: "00" },
+        { id: "set", short: "Set", label: "Set the Ride", eyebrow: "01" },
+        { id: "beat", short: "Beat", label: "Build the Beat", eyebrow: "02" },
+        { id: "movement", short: "Move", label: "Lead Movement", eyebrow: "03" },
+        { id: "finish", short: "Close", label: "Finish Room", eyebrow: "04" },
+        { id: "wireframe", short: "Plan", label: "Wireframe", eyebrow: "WF" },
+      ];
+
+      const neonWords = ["DIG DEEP", "BE HERE", "STAY MOVING", "POWER THROUGH"];
+
+      const bikeParts = [
+        {
+          id: "saddle",
+          label: "Saddle",
+          x: 51,
+          y: 31,
+          tip: "Set saddle height near hip bone. At the bottom of the pedal stroke, the knee should keep a small bend instead of locking out.",
+        },
+        {
+          id: "bars",
+          label: "Handlebars",
+          x: 70,
+          y: 29,
+          tip: "Start close enough that shoulders stay relaxed and ribs stack over hips. Raise the bars when the rider is new or protecting the low back.",
+        },
+        {
+          id: "knob",
+          label: "Resistance",
+          x: 61,
+          y: 44,
+          tip: "The knob is the room's volume control for effort. Add gear before hills and turns; never ride with a loose, bouncing pedal stroke.",
+        },
+        {
+          id: "pedals",
+          label: "Pedals",
+          x: 51,
+          y: 61,
+          tip: "Cue a smooth push and pull. The foot should feel clipped in, level, and connected through the whole circle.",
+        },
+      ];
+
+      const metrics = [
+        {
+          label: "Gear",
+          value: "Resistance",
+          detail: "How heavy the ride feels. Light gear supports speed; heavy gear creates hill strength.",
+        },
+        {
+          label: "RPM",
+          value: "Cadence",
+          detail: "Revolutions per minute. Match it to the beat when teaching rhythm rides.",
+        },
+        {
+          label: "Watts",
+          value: "Power",
+          detail: "The live effort number. It rises when cadence and gear both have intention.",
+        },
+        {
+          label: "Output",
+          value: "Work",
+          detail: "The bigger story of the ride. Use it to coach effort without making the class feel judged.",
+        },
+      ];
+
+      const language = [
+        "Find the beat",
+        "Add two turns",
+        "Light gear, fast legs",
+        "Heavy hill",
+        "Active recovery",
+        "In the saddle",
+        "Out of the saddle",
+        "Hold the resistance",
+        "Isolation",
+        "Bounce it out",
+      ];
+
+      const knownSongProfiles = {
+        "summertime sadness": {
+          bpm: 127,
+          category: "Warmup",
+          rpm: "63-70 or full beat",
+          note: "Use the opening to explain bike logistics, resistance, RPM, and room energy before asking for bigger work.",
+        },
+        "i'm good": {
+          bpm: 128,
+          category: "Sprint",
+          rpm: "100-112",
+          note: "Clean seated sprint energy. Cue quick legs, light-to-moderate gear, and short recoveries.",
+        },
+        "im good": {
+          bpm: 128,
+          category: "Sprint",
+          rpm: "100-112",
+          note: "Clean seated sprint energy. Cue quick legs, light-to-moderate gear, and short recoveries.",
+        },
+        "i love it": {
+          bpm: 126,
+          category: "Hill",
+          rpm: "58-72",
+          note: "Can become a punchy hill or isolation track depending on gear. Keep the body quiet while the legs work.",
+        },
+        diamonds: {
+          bpm: 92,
+          category: "Hill",
+          rpm: "55-68",
+          note: "Hard final hill. Let riders add weight gradually and give them a strong last climb.",
+        },
+        "nobody gets me": {
+          bpm: 83,
+          category: "Mindfulness",
+          rpm: "45-60",
+          note: "Dim the room, keep pedals turning, and let riders take a reflective reset before stretching.",
+        },
+        unwritten: {
+          bpm: 100,
+          category: "Cooldown",
+          rpm: "50-68",
+          note: "Works as walk-in, final release, or bounce-out cooldown with gratitude and light gear.",
+        },
+        "all night": {
+          bpm: 124,
+          category: "Choreography",
+          rpm: "70-86",
+          note: "Good for arms or a seated sprint build. Choose one focus so the track feels intentional.",
+        },
+      };
+
+      const seedSongs = [
+        {
+          title: "Summertime Sadness",
+          artist: "Lana Del Rey / Remix energy",
+          bpm: 127,
+          category: "Warmup",
+          duration: "4:25",
+          rpm: "63-70 or full beat",
+          note: "Bike logistics, gear language, positions, and the first turn into the room.",
+          artwork: makeArtwork("SUMMER", "#00d4ff", "#ff3bd4"),
+          source: "Curated fallback",
+        },
+        {
+          title: "I'm Good (Blue)",
+          artist: "David Guetta & Bebe Rexha",
+          bpm: 128,
+          category: "Sprint",
+          duration: "2:55",
+          rpm: "100-112",
+          note: "Seated sprint with quick recoveries and a clean count-in.",
+          artwork: makeArtwork("BLUE", "#2df8a0", "#00d4ff"),
+          source: "Curated fallback",
+        },
+        {
+          title: "Nobody Gets Me",
+          artist: "SZA",
+          bpm: 83,
+          category: "Mindfulness",
+          duration: "3:01",
+          rpm: "45-60",
+          note: "Reflective pedal stroke before stretch. Let the room go quiet.",
+          artwork: makeArtwork("QUIET", "#d7ff38", "#ff3b7f"),
+          source: "Curated fallback",
+        },
+      ];
+
+      const movements = [
+        {
+          name: "Pushups",
+          position: "standing",
+          level: "beginner",
+          bpm: "118-132",
+          when: "Use in rhythm sections once the room has a steady beat.",
+          cue: "Hips stay back over the saddle while elbows bend toward the floor.",
+          caution: "Avoid dropping the chest so low that the hips swing forward.",
+        },
+        {
+          name: "One-Sided Pushups",
+          position: "standing",
+          level: "advanced",
+          bpm: "112-126",
+          when: "Use for a controlled challenge after the room trusts the beat.",
+          cue: "One elbow bends while the opposite hand stabilizes the bars.",
+          caution: "Keep weight centered; this is not a shoulder twist.",
+        },
+        {
+          name: "Cross Body Reach",
+          position: "standing",
+          level: "intermediate",
+          bpm: "110-128",
+          when: "Use when the chorus has a strong side-to-side pull.",
+          cue: "Reach across the body, then return to square shoulders.",
+          caution: "Do not yank the torso; keep the reach small and musical.",
+        },
+        {
+          name: "Jackknifes",
+          position: "standing",
+          level: "advanced",
+          bpm: "104-122",
+          when: "Use for a dramatic beat drop or heavy choreography moment.",
+          cue: "Hips move back, chest folds slightly, then return tall on count.",
+          caution: "Keep resistance under the rider so the bike feels stable.",
+        },
+        {
+          name: "2 Forward / 2 Back",
+          position: "standing",
+          level: "beginner",
+          bpm: "100-126",
+          when: "Use to introduce traveling movement without overloading riders.",
+          cue: "Shift forward for two counts, back for two counts, smooth and quiet.",
+          caution: "Shoulders should not slam into the handlebars.",
+        },
+        {
+          name: "Jumps",
+          position: "combo",
+          level: "intermediate",
+          bpm: "120-140",
+          when: "Use for high-energy choruses or bridge builds.",
+          cue: "Stand and sit with the beat, keeping gear heavy enough to catch you.",
+          caution: "No bouncing into the saddle; control the landing.",
+        },
+        {
+          name: "4 Corners",
+          position: "standing",
+          level: "advanced",
+          bpm: "100-118",
+          when: "Use in slower, weighted choreography where control matters.",
+          cue: "Move through front, side, back, side like tracing a small square.",
+          caution: "Keep knees tracking forward instead of swaying.",
+        },
+        {
+          name: "Figure 8 Hips",
+          position: "standing",
+          level: "advanced",
+          bpm: "96-115",
+          when: "Use for a moody hill or isolating beat.",
+          cue: "Make the smallest figure eight possible with quiet shoulders.",
+          caution: "This is subtle; do not exaggerate through the low back.",
+        },
+        {
+          name: "Tap Backs",
+          position: "standing",
+          level: "beginner",
+          bpm: "112-130",
+          when: "Use when the room needs a simple release on the beat.",
+          cue: "Tap hips back over the saddle, then return tall.",
+          caution: "Hands stay light; the move comes from hips, not arms.",
+        },
+        {
+          name: "Pulse",
+          position: "standing",
+          level: "beginner",
+          bpm: "92-115",
+          when: "Use during hills, isolations, or a heavy final push.",
+          cue: "Small lower-body pulse, chest proud, gear underneath you.",
+          caution: "If the bike rocks, add gear or make the range smaller.",
+        },
+        {
+          name: "Arms Close / Open",
+          position: "seated",
+          level: "beginner",
+          bpm: "95-125",
+          when: "Use during an arms track or recovery with light-to-moderate legs.",
+          cue: "Close elbows in, open with control, wrists long.",
+          caution: "Do not let weights swing behind the body.",
+        },
+        {
+          name: "Shoulder Press Cues",
+          position: "seated",
+          level: "intermediate",
+          bpm: "90-118",
+          when: "Use for an arms block with a clear chorus pattern.",
+          cue: "Press overhead, ribs down, elbows return to shoulder height.",
+          caution: "Lower the weights when form gets noisy.",
+        },
+        {
+          name: "In / Out Saddle",
+          position: "combo",
+          level: "beginner",
+          bpm: "95-125",
+          when: "Use early in class to teach transitions or later as a reset.",
+          cue: "Stand with the beat, sit with control, gear catches the body.",
+          caution: "Riders should not feel like they are falling forward.",
+        },
+        {
+          name: "Ups and Downs",
+          position: "combo",
+          level: "intermediate",
+          bpm: "110-136",
+          when: "Use in energetic tracks where the class can follow clean counts.",
+          cue: "Two counts up, two counts down, then build to singles if ready.",
+          caution: "Keep it optional for riders who need steady seated work.",
+        },
+      ];
+
+      const closingMoods = {
+        gratitude: {
+          title: "Gratitude",
+          line: "Thank yourself for showing up when no one made you. Keep the pedals moving and let that be enough.",
+          ritual: "Dim lights, one hand to heart, one final breath before the stretch flow.",
+        },
+        empowerment: {
+          title: "Empowerment",
+          line: "You did not need perfect. You needed effort, rhythm, and the choice to stay with yourself.",
+          ritual: "Lights return for one final ride together, then hands up on the last beat.",
+        },
+        release: {
+          title: "Release",
+          line: "Whatever came in with you can leave on the floor. Keep moving, soften your shoulders, unclench your jaw.",
+          ritual: "Slow roll, long exhale, stretch quads and hamstrings before stepping down.",
+        },
+        reflection: {
+          title: "Reflection",
+          line: "No one is watching you. This room is yours for one quiet minute, and your body already knows what to do.",
+          ritual: "Lights off, low cadence, then a collective inhale, exhale, clap, wipe down.",
+        },
+      };
+
+      function makeArtwork(label, start, end) {
+        const svg = `
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+            <defs>
+              <radialGradient id="g" cx="50%" cy="35%" r="70%">
+                <stop offset="0%" stop-color="${start}"/>
+                <stop offset="48%" stop-color="#15151d"/>
+                <stop offset="100%" stop-color="${end}"/>
+              </radialGradient>
+              <filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+            <rect width="300" height="300" fill="#09090d"/>
+            <circle cx="150" cy="150" r="118" fill="url(#g)" opacity=".68"/>
+            <circle cx="150" cy="150" r="84" fill="none" stroke="${start}" stroke-width="6" opacity=".8"/>
+            <circle cx="150" cy="150" r="35" fill="#09090d" stroke="${end}" stroke-width="5"/>
+            <text x="150" y="164" text-anchor="middle" font-family="Inter, Arial" font-size="34" font-weight="900" fill="#f8fbff" filter="url(#glow)">${label}</text>
+          </svg>`;
+        return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+      }
+
+      function normalizeTitle(title) {
+        return title.toLowerCase().replace(/[()]/g, "").trim();
+      }
+
+      function profileForTitle(title, fallbackBpm) {
+        const normalized = normalizeTitle(title);
+        const matchKey = Object.keys(knownSongProfiles).find((key) => normalized.includes(key));
+        if (matchKey) {
+          return knownSongProfiles[matchKey];
+        }
+
+        const bpm = fallbackBpm || estimateBpm(title);
+        if (bpm >= 146) {
+          return {
+            bpm,
+            category: "Sprint",
+            rpm: "100-115",
+            note: "Fast interval track. Keep gear light-to-moderate and coach quick resets between pushes.",
+          };
+        }
+        if (bpm >= 128) {
+          return {
+            bpm,
+            category: "Choreography",
+            rpm: "72-90",
+            note: "Rhythm-forward track. Use jumps, tap backs, or arms if the beat feels clean.",
+          };
+        }
+        if (bpm >= 112) {
+          return {
+            bpm,
+            category: "Moderate",
+            rpm: "68-86",
+            note: "Steady room-builder. Use out-of-saddle moderate work, active recovery, or a controlled combo.",
+          };
+        }
+        if (bpm >= 90) {
+          return {
+            bpm,
+            category: "Hill",
+            rpm: "54-72",
+            note: "Heavier feel. Add gear slowly and coach posture, breath, and quiet upper body.",
+          };
+        }
+        return {
+          bpm,
+          category: "Mindfulness",
+          rpm: "45-62",
+          note: "Lower intensity. Use it for a reflective final ride, cooldown, or stretch transition.",
+        };
+      }
+
+      function estimateBpm(title) {
+        const clean = title || "ride";
+        const hash = clean.split("").reduce((sum, char) => sum + char.charCodeAt(0), 0);
+        return 82 + (hash % 72);
+      }
+
+      function formatDuration(milliseconds) {
+        if (!milliseconds) return "3:30";
+        const totalSeconds = Math.round(milliseconds / 1000);
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = `${totalSeconds % 60}`.padStart(2, "0");
+        return `${minutes}:${seconds}`;
+      }
+
+      function songId(song) {
+        return `${song.title}-${song.artist}-${song.category}`.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      }
+
+      function useHashPage() {
+        const readHash = () => {
+          const hash = window.location.hash.replace("#", "");
+          return pageOrder.includes(hash) ? hash : "home";
+        };
+        const [page, setPageState] = useState(readHash);
+
+        useEffect(() => {
+          const onHashChange = () => setPageState(readHash());
+          window.addEventListener("hashchange", onHashChange);
+          return () => window.removeEventListener("hashchange", onHashChange);
+        }, []);
+
+        const setPage = (nextPage) => {
+          window.location.hash = nextPage;
+          setPageState(nextPage);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        };
+
+        return [page, setPage];
+      }
+
+      function App() {
+        const [page, setPage] = useHashPage();
+        const activeIndex = pageOrder.indexOf(page);
+
+        return (
+          <div className={`app-shell page-${page}`}>
+            <Atmosphere />
+            <GearDialNav
+              pages={mainPages}
+              activePage={page}
+              activeIndex={activeIndex}
+              onNavigate={setPage}
+            />
+            <main>
+              {page === "home" && <HomePage onStart={() => setPage("set")} />}
+              {page === "set" && <SetRidePage />}
+              {page === "beat" && <BuildBeatPage />}
+              {page === "movement" && <MovementPage />}
+              {page === "finish" && <FinishPage />}
+              {page === "wireframe" && <WireframeRoute />}
+            </main>
+          </div>
+        );
+      }
+
+      function Atmosphere() {
+        return (
+          <div className="atmosphere" aria-hidden="true">
+            <span className="light-band band-one"></span>
+            <span className="light-band band-two"></span>
+            <span className="scan-line"></span>
+          </div>
+        );
+      }
+
+      function GearDialNav({ pages, activePage, activeIndex, onNavigate }) {
+        const safeIndex = Math.max(0, activeIndex);
+        const rotation = safeIndex * 42;
+
+        const goForward = () => {
+          const next = pages[(safeIndex + 1) % pages.length].id;
+          onNavigate(next);
+        };
+
+        const goBack = () => {
+          const previous = pages[(safeIndex - 1 + pages.length) % pages.length].id;
+          onNavigate(previous);
+        };
+
+        return (
+          <nav className="gear-nav" aria-label="Resistance dial navigation">
+            <button className="brand-mark" onClick={() => onNavigate("home")} aria-label="Go home">
+              <span>Start</span>
+              <strong>Your Class</strong>
+            </button>
+            <div className="gear-dial-wrap">
+              <button className="dial-step dial-step-left" onClick={goBack} aria-label="Turn dial backward">
+                -
+              </button>
+              <button className="gear-dial" onClick={goForward} aria-label="Turn dial forward">
+                <span className="dial-indicator" style={{ transform: `rotate(${rotation}deg)` }}></span>
+                <span className="dial-core">
+                  <small>Gear</small>
+                  <strong>{pages[safeIndex]?.eyebrow}</strong>
+                </span>
+              </button>
+              <button className="dial-step dial-step-right" onClick={goForward} aria-label="Turn dial forward">
+                +
+              </button>
+            </div>
+            <div className="gear-links">
+              {pages.map((item) => (
+                <button
+                  key={item.id}
+                  className={item.id === activePage ? "active" : ""}
+                  onClick={() => onNavigate(item.id)}
+                >
+                  <span>{item.eyebrow}</span>
+                  {item.short}
+                </button>
+              ))}
+            </div>
+          </nav>
+        );
+      }
+
+      function HomePage({ onStart }) {
+        return (
+          <section className="hero section-screen">
+            <div className="hero-copy">
+              <p className="eyebrow">Dark-room instructor lab</p>
+              <NeonWordWall />
+              <h1>Build the ride before you lead the room.</h1>
+              <p>
+                Learn how to set the bike, choose the beat, cue movement, and close class with
+                enough presence to make the studio feel alive.
+              </p>
+              <button className="primary-cta" onClick={onStart}>Start Your Class</button>
+            </div>
+            <div className="hero-stage" aria-label="Stylized indoor cycling bike with moving wheel">
+              <div className="led-wall">
+                {neonWords.map((word) => (
+                  <span key={word}>{word}</span>
+                ))}
+              </div>
+              <BikeSilhouette />
+              <div className="studio-floor"></div>
+            </div>
+          </section>
+        );
+      }
+
+      function NeonWordWall() {
+        const [index, setIndex] = useState(0);
+        useEffect(() => {
+          const interval = setInterval(() => setIndex((current) => (current + 1) % neonWords.length), 1800);
+          return () => clearInterval(interval);
+        }, []);
+        return (
+          <div className="word-wall" aria-live="polite">
+            <span>{neonWords[index]}</span>
+          </div>
+        );
+      }
+
+      function BikeSilhouette() {
+        return (
+          <svg className="bike-silhouette" viewBox="0 0 760 430" role="img" aria-label="Spin bike silhouette">
+            <defs>
+              <filter id="bikeGlow">
+                <feGaussianBlur stdDeviation="5" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+            <g className="wheel wheel-front">
+              <circle cx="545" cy="290" r="92" />
+              <circle cx="545" cy="290" r="56" />
+              <line x1="545" y1="198" x2="545" y2="382" />
+              <line x1="453" y1="290" x2="637" y2="290" />
+              <line x1="480" y1="225" x2="610" y2="355" />
+              <line x1="610" y1="225" x2="480" y2="355" />
+            </g>
+            <g className="wheel wheel-back">
+              <circle cx="255" cy="290" r="92" />
+              <circle cx="255" cy="290" r="56" />
+              <line x1="255" y1="198" x2="255" y2="382" />
+              <line x1="163" y1="290" x2="347" y2="290" />
+              <line x1="190" y1="225" x2="320" y2="355" />
+              <line x1="320" y1="225" x2="190" y2="355" />
+            </g>
+            <g className="bike-frame" filter="url(#bikeGlow)">
+              <path d="M255 290 L360 170 L450 290 L545 290 L462 170 L360 170 L255 290" />
+              <path d="M360 170 L345 128 L430 128" />
+              <path d="M462 170 L520 106 L612 112" />
+              <path d="M520 106 L592 84" />
+              <path d="M450 290 L405 246" />
+              <circle className="crank" cx="405" cy="246" r="18" />
+              <path className="pedal" d="M405 246 L450 220" />
+              <path className="pedal pedal-two" d="M405 246 L360 272" />
+            </g>
+          </svg>
+        );
+      }
+
+      function SectionHeader({ eyebrow, title, children }) {
+        return (
+          <header className="section-header">
+            <p className="eyebrow">{eyebrow}</p>
+            <h2>{title}</h2>
+            {children && <p>{children}</p>}
+          </header>
+        );
+      }
+
+      function SetRidePage() {
+        const [activePart, setActivePart] = useState(bikeParts[0]);
+        const [position, setPosition] = useState("seated");
+
+        return (
+          <section className="content-page set-page">
+            <SectionHeader eyebrow="Step 1" title="Set the Ride">
+              Before the music does anything, the bike has to feel like an instrument: stable,
+              responsive, and tuned to the rider in front of you.
+            </SectionHeader>
+
+            <div className="bike-lab">
+              <BikeDiagram activePart={activePart} onSelect={setActivePart} />
+              <article className="part-panel">
+                <p className="eyebrow">Bike setup</p>
+                <h3>{activePart.label}</h3>
+                <p>{activePart.tip}</p>
+                <div className="setup-steps">
+                  <span>Measure</span>
+                  <span>Clip in</span>
+                  <span>Test the beat</span>
+                </div>
+              </article>
+            </div>
+
+            <div className="split-band">
+              <div className="form-panel">
+                <p className="eyebrow">Find your form</p>
+                <h3>{position === "seated" ? "In the saddle" : "Out of the saddle"}</h3>
+                <p>
+                  {position === "seated"
+                    ? "Stack ribs over hips, soften the grip, and coach a smooth pedal circle before asking for speed."
+                    : "Hips hover over the saddle, shoulders stay low, and the gear catches the rider before choreography starts."}
+                </p>
+                <div className="position-toggle" role="group" aria-label="Riding position">
+                  <button className={position === "seated" ? "active" : ""} onClick={() => setPosition("seated")}>
+                    Seated
+                  </button>
+                  <button className={position === "standing" ? "active" : ""} onClick={() => setPosition("standing")}>
+                    Standing
+                  </button>
+                </div>
+              </div>
+              <div className={`posture-demo ${position}`}>
+                <span className="rider-head"></span>
+                <span className="rider-torso"></span>
+                <span className="rider-arm arm-one"></span>
+                <span className="rider-arm arm-two"></span>
+                <span className="rider-leg leg-one"></span>
+                <span className="rider-leg leg-two"></span>
+                <span className="demo-bike"></span>
+              </div>
+            </div>
+
+            <div className="metric-grid">
+              {metrics.map((metric) => (
+                <MetricCard key={metric.label} {...metric} />
+              ))}
+            </div>
+
+            <section className="language-strip">
+              <p className="eyebrow">Know the language</p>
+              <div>
+                {language.map((term) => (
+                  <span key={term}>{term}</span>
+                ))}
+              </div>
+            </section>
+          </section>
+        );
+      }
+
+      function BikeDiagram({ activePart, onSelect }) {
+        return (
+          <div className="bike-diagram">
+            <svg viewBox="0 0 760 430" aria-label="Clickable bike setup diagram">
+              <g className="diagram-bike">
+                <circle cx="255" cy="290" r="88" />
+                <circle cx="545" cy="290" r="88" />
+                <path d="M255 290 L360 170 L450 290 L545 290 L462 170 L360 170 L255 290" />
+                <path d="M360 170 L345 128 L430 128" />
+                <path d="M462 170 L520 106 L612 112" />
+                <path d="M520 106 L592 84" />
+                <circle cx="405" cy="246" r="19" />
+                <path d="M405 246 L450 220" />
+              </g>
+              {bikeParts.map((part) => (
+                <g key={part.id}>
+                  <circle
+                    className={`hotspot ${activePart.id === part.id ? "active" : ""}`}
+                    cx={`${part.x}%`}
+                    cy={`${part.y}%`}
+                    r="18"
+                    onClick={() => onSelect(part)}
+                  />
+                  <text x={`${part.x}%`} y={`${part.y - 7}%`}>{part.label}</text>
+                </g>
+              ))}
+            </svg>
+          </div>
+        );
+      }
+
+      function MetricCard({ label, value, detail }) {
+        return (
+          <article className="metric-card">
+            <span>{label}</span>
+            <strong>{value}</strong>
+            <p>{detail}</p>
+          </article>
+        );
+      }
+
+      function BuildBeatPage() {
+        const [playlist, setPlaylist] = useState(() => {
+          try {
+            return JSON.parse(localStorage.getItem("startYourClassPlaylist")) || [];
+          } catch (error) {
+            return [];
+          }
+        });
+
+        useEffect(() => {
+          localStorage.setItem("startYourClassPlaylist", JSON.stringify(playlist));
+        }, [playlist]);
+
+        const addSong = (song) => {
+          setPlaylist((current) => {
+            if (current.some((item) => item.id === song.id)) return current;
+            return [{ ...song, savedAt: Date.now() }, ...current];
+          });
+        };
+
+        const removeSong = (songId) => {
+          setPlaylist((current) => current.filter((song) => song.id !== songId));
+        };
+
+        return (
+          <section className="content-page beat-page">
+            <SectionHeader eyebrow="Step 2" title="Build the Beat">
+              Choose songs for what they do in the room: introduce the bike, drive a sprint,
+              carry a hill, open choreography, or create a quiet final reset.
+            </SectionHeader>
+            <div className="beat-layout">
+              <SongSearchPanel onAdd={addSong} playlist={playlist} />
+              <PlaylistPanel
+                playlist={playlist}
+                onRemove={removeSong}
+                onClear={() => setPlaylist([])}
+              />
+            </div>
+          </section>
+        );
+      }
+
+      function SongSearchPanel({ onAdd, playlist }) {
+        const [query, setQuery] = useState("Summertime Sadness");
+        const [result, setResult] = useState({ ...seedSongs[0], id: songId(seedSongs[0]) });
+        const [loading, setLoading] = useState(false);
+        const [error, setError] = useState("");
+
+        const isSaved = result && playlist.some((song) => song.id === (result.id || songId(result)));
+
+        const searchSong = async (event) => {
+          event.preventDefault();
+          const trimmed = query.trim();
+          if (!trimmed) return;
+
+          setLoading(true);
+          setError("");
+          try {
+            const response = await fetch(
+              `https://itunes.apple.com/search?term=${encodeURIComponent(trimmed)}&entity=song&limit=5`
+            );
+            if (!response.ok) throw new Error("Song API unavailable");
+            const data = await response.json();
+            if (!data.results?.length) throw new Error("No matching songs found");
+            const track = data.results[0];
+            const profile = profileForTitle(track.trackName);
+            setResult({
+              id: `${track.trackId}-${profile.category}`,
+              title: track.trackName,
+              artist: track.artistName,
+              bpm: profile.bpm,
+              category: profile.category,
+              rpm: profile.rpm,
+              note: profile.note,
+              duration: formatDuration(track.trackTimeMillis),
+              artwork: (track.artworkUrl100 || makeArtwork("BEAT", "#00d4ff", "#ff3bd4")).replace("100x100", "600x600"),
+              source: "iTunes Search API + instructor BPM logic",
+            });
+          } catch (apiError) {
+            const fallback =
+              seedSongs.find((song) => normalizeTitle(song.title).includes(normalizeTitle(trimmed))) ||
+              seedSongs[Math.abs(trimmed.length) % seedSongs.length];
+            setResult({ ...fallback, id: songId(fallback) });
+            setError("Live search could not finish, so the studio loaded a curated fallback track.");
+          } finally {
+            setLoading(false);
+          }
+        };
+
+        return (
+          <section className="song-search-panel">
+            <p className="eyebrow">Song analyzer</p>
+            <form className="song-search-form" onSubmit={searchSong}>
+              <label htmlFor="song-query">Search a song</label>
+              <div>
+                <input
+                  id="song-query"
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Try All Night, Diamonds, Unwritten..."
+                />
+                <button type="submit">{loading ? "Listening..." : "Analyze"}</button>
+              </div>
+            </form>
+            {error && <p className="soft-alert">{error}</p>}
+            {result && <SongResultCard song={result} onAdd={onAdd} isSaved={isSaved} />}
+            <div className="seed-row">
+              {seedSongs.map((song) => (
+                <button
+                  key={song.title}
+                  onClick={() => {
+                    setQuery(song.title);
+                    setResult({ ...song, id: songId(song) });
+                    setError("");
+                  }}
+                >
+                  {song.title}
+                </button>
+              ))}
+            </div>
+          </section>
+        );
+      }
+
+      function SongResultCard({ song, onAdd, isSaved }) {
+        return (
+          <article className="song-result-card">
+            <img src={song.artwork} alt={`${song.title} artwork`} />
+            <div>
+              <p className="eyebrow">{song.source}</p>
+              <h3>{song.title}</h3>
+              <p>{song.artist}</p>
+              <div className="song-stats">
+                <span>{song.bpm} BPM</span>
+                <span>{song.rpm} RPM</span>
+                <span>{song.category}</span>
+                <span>{song.duration}</span>
+              </div>
+              <p>{song.note}</p>
+              <button className="secondary-cta" onClick={() => onAdd({ ...song, id: song.id || songId(song) })} disabled={isSaved}>
+                {isSaved ? "In Your Set" : "Add to Playlist"}
+              </button>
+            </div>
+          </article>
+        );
+      }
+
+      function PlaylistPanel({ playlist, onRemove, onClear }) {
+        const totalMinutes = playlist.reduce((sum, song) => {
+          const [minutes = "0", seconds = "0"] = String(song.duration).split(":");
+          return sum + Number(minutes) + Number(seconds) / 60;
+        }, 0);
+
+        return (
+          <aside className="playlist-panel">
+            <div className="panel-heading">
+              <div>
+                <p className="eyebrow">localStorage playlist</p>
+                <h3>Build Your Set</h3>
+              </div>
+              <button onClick={onClear} disabled={!playlist.length}>Clear</button>
+            </div>
+            <div className="playlist-meter">
+              <span style={{ width: `${Math.min(100, playlist.length * 16)}%` }}></span>
+            </div>
+            <p className="playlist-summary">
+              {playlist.length ? `${playlist.length} tracks / about ${Math.round(totalMinutes)} minutes` : "Save tracks and refresh the page. Your set will stay here."}
+            </p>
+            <div className="playlist-list">
+              {playlist.map((song) => (
+                <article key={song.id} className="playlist-item">
+                  <img src={song.artwork} alt="" />
+                  <div>
+                    <strong>{song.title}</strong>
+                    <span>{song.artist}</span>
+                    <small>{song.category} / {song.bpm} BPM / {song.rpm}</small>
+                  </div>
+                  <button onClick={() => onRemove(song.id)} aria-label={`Remove ${song.title}`}>Remove</button>
+                </article>
+              ))}
+            </div>
+          </aside>
+        );
+      }
+
+      function MovementPage() {
+        const [positionFilter, setPositionFilter] = useState("all");
+        const [levelFilter, setLevelFilter] = useState("all");
+        const [combo, setCombo] = useState([]);
+
+        const filteredMovements = movements.filter((move) => {
+          const positionMatch = positionFilter === "all" || move.position === positionFilter || move.position === "combo";
+          const levelMatch = levelFilter === "all" || move.level === levelFilter;
+          return positionMatch && levelMatch;
+        });
+
+        const addToCombo = (movement) => {
+          setCombo((current) => {
+            if (current.some((item) => item.name === movement.name) || current.length >= 5) return current;
+            return [...current, movement];
+          });
+        };
+
+        return (
+          <section className="content-page movement-page">
+            <SectionHeader eyebrow="Step 3" title="Lead the Movement">
+              Choreography should make the beat easier to feel, not harder to survive. Pick moves
+              that fit the song, the riders, and the room's energy.
+            </SectionHeader>
+
+            <div className="movement-controls">
+              <FilterGroup
+                label="Position"
+                value={positionFilter}
+                options={["all", "seated", "standing", "combo"]}
+                onChange={setPositionFilter}
+              />
+              <FilterGroup
+                label="Level"
+                value={levelFilter}
+                options={["all", "beginner", "intermediate", "advanced"]}
+                onChange={setLevelFilter}
+              />
+            </div>
+
+            <div className="movement-layout">
+              <div className="movement-grid">
+                {filteredMovements.map((move) => (
+                  <MovementCard key={move.name} movement={move} onAdd={addToCombo} />
+                ))}
+              </div>
+              <aside className="combo-builder">
+                <p className="eyebrow">Build-a-sequence</p>
+                <h3>Choreography Combo</h3>
+                <div className="combo-track">
+                  {combo.length === 0 && <p>Pick up to five moves for a clean chorus pattern.</p>}
+                  {combo.map((move, index) => (
+                    <button key={move.name} onClick={() => setCombo((current) => current.filter((item) => item.name !== move.name))}>
+                      <span>{index + 1}</span>
+                      {move.name}
+                    </button>
+                  ))}
+                </div>
+                <button className="secondary-cta" onClick={() => setCombo([])} disabled={!combo.length}>Reset Combo</button>
+              </aside>
+            </div>
+          </section>
+        );
+      }
+
+      function FilterGroup({ label, value, options, onChange }) {
+        return (
+          <div className="filter-group">
+            <span>{label}</span>
+            {options.map((option) => (
+              <button key={option} className={value === option ? "active" : ""} onClick={() => onChange(option)}>
+                {option}
+              </button>
+            ))}
+          </div>
+        );
+      }
+
+      function MovementCard({ movement, onAdd }) {
+        const [open, setOpen] = useState(false);
+        return (
+          <article className={`movement-card ${open ? "open" : ""}`}>
+            <button className="movement-main" onClick={() => setOpen((current) => !current)}>
+              <span className={`move-position ${movement.position}`}>{movement.position}</span>
+              <h3>{movement.name}</h3>
+              <div className="motion-lines" aria-hidden="true"><span></span><span></span><span></span></div>
+              <p>{movement.when}</p>
+              <small>{movement.level} / {movement.bpm} BPM</small>
+            </button>
+            {open && (
+              <div className="movement-detail">
+                <p><strong>Cue:</strong> {movement.cue}</p>
+                <p><strong>Caution:</strong> {movement.caution}</p>
+                <button onClick={() => onAdd(movement)}>Add to combo</button>
+              </div>
+            )}
+          </article>
+        );
+      }
+
+      function FinishPage() {
+        const [mood, setMood] = useState("gratitude");
+        const [revealed, setRevealed] = useState([]);
+        const affirmations = [
+          "No one is watching you. Take the version of the ride your body needs.",
+          "You can slow down. You can add gear. You can change the shape. Just keep moving.",
+          "Thank your body for carrying you through one more room, one more song, one more breath.",
+          "Lights come back on, and we take the final push together.",
+        ];
+
+        const toggleAffirmation = (index) => {
+          setRevealed((current) =>
+            current.includes(index) ? current.filter((item) => item !== index) : [...current, index]
+          );
+        };
+
+        return (
+          <section className="content-page finish-page">
+            <SectionHeader eyebrow="Step 4" title="Finish the Room">
+              The ending is not a drop-off. It is the moment where the class understands why they
+              stayed, breathes together, and leaves the bike with a little more ground under them.
+            </SectionHeader>
+
+            <div className="finish-layout">
+              <ClosingMoodSelector mood={mood} onMoodChange={setMood} />
+              <article className="closing-script">
+                <p className="eyebrow">{closingMoods[mood].title} closing</p>
+                <h3>{closingMoods[mood].line}</h3>
+                <p>{closingMoods[mood].ritual}</p>
+                <div className="ending-songs">
+                  <span>Dancing On My Own</span>
+                  <span>These Days</span>
+                  <span>Glorious</span>
+                  <span>Ribs</span>
+                  <span>Iris mood stretch</span>
+                </div>
+              </article>
+            </div>
+
+            <div className="affirmation-grid">
+              {affirmations.map((affirmation, index) => (
+                <button
+                  key={affirmation}
+                  className={revealed.includes(index) ? "revealed" : ""}
+                  onClick={() => toggleAffirmation(index)}
+                >
+                  <span>{revealed.includes(index) ? affirmation : "Tap to reveal"}</span>
+                </button>
+              ))}
+            </div>
+
+            <section className="ritual-timeline">
+              {["Dim lights", "Quiet pedal", "Final ride", "Slow down", "Stretch", "Breath + clap"].map((step) => (
+                <span key={step}>{step}</span>
+              ))}
+            </section>
+          </section>
+        );
+      }
+
+      function ClosingMoodSelector({ mood, onMoodChange }) {
+        return (
+          <div className="mood-selector">
+            <p className="eyebrow">Choose the room tone</p>
+            {Object.entries(closingMoods).map(([key, value]) => (
+              <button key={key} className={mood === key ? "active" : ""} onClick={() => onMoodChange(key)}>
+                <strong>{value.title}</strong>
+                <span>{value.ritual}</span>
+              </button>
+            ))}
+          </div>
+        );
+      }
+
+      function WireframeRoute() {
+        return (
+          <section className="content-page wireframe-route">
+            <SectionHeader eyebrow="Proposal artifact" title="Wireframe Plan">
+              Screenshot this route or open wireframe.html for the grayscale planning document.
+            </SectionHeader>
+            <WireframeDocument />
+          </section>
+        );
+      }
+
+      function WireframeDocument() {
+        const frames = [
+          ["Homepage", "Full-screen hero, animated bike wheel, LED wall words, dial navigation, CTA."],
+          ["Set the Ride", "Clickable bike diagram, form toggle, metric cards, terminology strip."],
+          ["Build the Beat", "iTunes song search, BPM/class logic, song card, localStorage playlist panel."],
+          ["Lead the Movement", "Movement filters, expandable cards, build-a-sequence interaction."],
+          ["Finish the Room", "Mood selector, affirmation reveal cards, cooldown ritual timeline."],
+        ];
+        return (
+          <div className="wireframe-doc">
+            {frames.map(([title, note]) => (
+              <article className="wf-frame" key={title}>
+                <header>
+                  <span>{title}</span>
+                  <small>{note}</small>
+                </header>
+                <div className="wf-hero-box">Hero / section title</div>
+                <div className="wf-row">
+                  <div className="wf-box tall">Primary interactive module</div>
+                  <div className="wf-stack">
+                    <div className="wf-box">State-driven panel</div>
+                    <div className="wf-box">Notes / cues</div>
+                    <div className="wf-box">CTA / controls</div>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>

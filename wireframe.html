@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Start Your Class Wireframe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Space+Grotesk:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="wireframe-page">
+    <main class="wf-shell">
+      <section class="wf-title">
+        <p class="eyebrow">Project proposal wireframe</p>
+        <h1>Start Your Class</h1>
+        <p>
+          A planning document for the dark-room cycling instructor experience. The final build uses
+          React components, state, props, event handling, list rendering, an external song API,
+          fallback BPM logic, and localStorage playlist persistence.
+        </p>
+      </section>
+
+      <section class="wf-nav-note">
+        <div class="dial-sketch">
+          <span>Gear Dial Nav</span>
+        </div>
+        <article class="annotation">
+          <h2>Navigation System</h2>
+          <ul>
+            <li>Circular resistance knob moves forward and backward through the class-building steps.</li>
+            <li>Active gear indicator rotates as the user changes sections.</li>
+            <li>Compact labels: Home, Set, Beat, Move, Close, Plan.</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="wf-grid">
+        <article class="wf-frame">
+          <header>
+            <span>1. Homepage</span>
+            <small>Full-screen cinematic entry with animated bike wheel, LED wall words, CTA, and light streaks.</small>
+          </header>
+          <div class="wf-hero-box">Hero: LED words + Start Your Class CTA</div>
+          <div class="wf-row">
+            <div class="wf-box tall">Stylized spin bike centerpiece / moving wheel</div>
+            <div class="wf-stack">
+              <div class="wf-box">Changing wall words: DIG DEEP / BE HERE / STAY MOVING</div>
+              <div class="wf-box">Dark studio background with subtle glow bands</div>
+              <div class="wf-box">Resistance dial navigation visible globally</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="wf-frame">
+          <header>
+            <span>2. Set the Ride</span>
+            <small>Bike setup and instructor language taught through modular interactions.</small>
+          </header>
+          <div class="wf-hero-box">Page title + purpose statement</div>
+          <div class="wf-row">
+            <div class="wf-box tall">Clickable bike diagram: saddle / handlebars / pedals / resistance knob</div>
+            <div class="wf-stack">
+              <div class="wf-box">Selected bike-part setup tip card</div>
+              <div class="wf-box">Seated vs standing position toggle</div>
+              <div class="wf-box">Metric cards: gear / RPM / watts / output</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="wf-frame">
+          <header>
+            <span>3. Build the Beat</span>
+            <small>Primary API feature with playlist persistence.</small>
+          </header>
+          <div class="wf-hero-box">Page title + song-planning explanation</div>
+          <div class="wf-row">
+            <div class="wf-box tall">Left panel: song search input, iTunes Search API result, BPM/class recommendation</div>
+            <div class="wf-stack">
+              <div class="wf-box">Right panel: Build Your Set playlist</div>
+              <div class="wf-box">localStorage: load, add, remove, clear, persist after refresh</div>
+              <div class="wf-box">Fallback demo songs if the API cannot return BPM or metadata</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="wf-frame">
+          <header>
+            <span>4. Lead the Movement</span>
+            <small>Movement library with choreography filters and expandable cards.</small>
+          </header>
+          <div class="wf-hero-box">Page title + choreography teaching principle</div>
+          <div class="wf-row">
+            <div class="wf-box tall">Movement card grid: pushups, jumps, tap backs, 4 corners, arms, ups and downs</div>
+            <div class="wf-stack">
+              <div class="wf-box">Filter by seated / standing / combo</div>
+              <div class="wf-box">Filter by beginner / intermediate / advanced</div>
+              <div class="wf-box">Build-a-sequence combo panel</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="wf-frame">
+          <header>
+            <span>5. Finish the Room</span>
+            <small>Dimmer emotional closing page with mood choices, affirmations, and cooldown ritual.</small>
+          </header>
+          <div class="wf-hero-box">Page title + emotional purpose statement</div>
+          <div class="wf-row">
+            <div class="wf-box tall">Closing mood selector: gratitude / empowerment / release / reflection</div>
+            <div class="wf-stack">
+              <div class="wf-box">Generated closing script language</div>
+              <div class="wf-box">Click-to-reveal affirmation cards</div>
+              <div class="wf-box">Timeline: dim lights / quiet pedal / final ride / stretch / breath + clap</div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <a class="back-link" href="./index.html">Back to React Site</a>
+    </main>
+  </body>
+</html>
