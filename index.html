@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Start Your Class</title>
+    <title>Ride Lab</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -20,10 +20,11 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script type="text/babel">
       const { useEffect, useMemo, useState } = React;
+      const PLAYLIST_STORAGE_KEY = "rideLabPlaylist";
 
       const pageOrder = ["home", "set", "beat", "movement", "finish", "wireframe"];
       const mainPages = [
-        { id: "home", short: "Home", label: "Start", eyebrow: "00" },
+        { id: "home", short: "Lab", label: "Ride Lab", eyebrow: "00" },
         { id: "set", short: "Set", label: "Set the Ride", eyebrow: "01" },
         { id: "beat", short: "Beat", label: "Build the Beat", eyebrow: "02" },
         { id: "movement", short: "Move", label: "Lead Movement", eyebrow: "03" },
@@ -503,8 +504,8 @@
         return (
           <nav className="gear-nav" aria-label="Resistance dial navigation">
             <button className="brand-mark" onClick={() => onNavigate("home")} aria-label="Go home">
-              <span>Start</span>
-              <strong>Your Class</strong>
+              <span>Built on BPM</span>
+              <strong>Ride Lab</strong>
             </button>
             <div className="gear-dial-wrap">
               <button className="dial-step dial-step-left" onClick={goBack} aria-label="Turn dial backward">
@@ -543,12 +544,13 @@
             <div className="hero-copy">
               <p className="eyebrow">Dark-room instructor lab</p>
               <NeonWordWall />
-              <h1>Build the ride before you lead the room.</h1>
+              <h1>Ride Lab</h1>
+              <p className="tagline">Built on BPM</p>
               <p>
-                Learn how to set the bike, choose the beat, cue movement, and close class with
-                enough presence to make the studio feel alive.
+                Build the ride before you lead the room. Learn how to set the bike, choose the
+                beat, cue movement, and close class with enough presence to make the studio feel alive.
               </p>
-              <button className="primary-cta" onClick={onStart}>Start Your Class</button>
+              <button className="primary-cta" onClick={onStart}>Enter Ride Lab</button>
             </div>
             <div className="hero-stage" aria-label="Stylized indoor cycling bike with moving wheel">
               <div className="led-wall">
@@ -744,14 +746,15 @@
       function BuildBeatPage() {
         const [playlist, setPlaylist] = useState(() => {
           try {
-            return JSON.parse(localStorage.getItem("startYourClassPlaylist")) || [];
+            const savedPlaylist = localStorage.getItem(PLAYLIST_STORAGE_KEY);
+            return JSON.parse(savedPlaylist) || [];
           } catch (error) {
             return [];
           }
         });
 
         useEffect(() => {
-          localStorage.setItem("startYourClassPlaylist", JSON.stringify(playlist));
+          localStorage.setItem(PLAYLIST_STORAGE_KEY, JSON.stringify(playlist));
         }, [playlist]);
 
         const addSong = (song) => {
