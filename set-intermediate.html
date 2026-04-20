@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Intermediate SET UX Storyboard</title>
+    <style>
+      :root {
+        --ink: #202124;
+        --soft-ink: #4f5358;
+        --muted: #74777b;
+        --sketch: #303236;
+        --line: #d8c9b4;
+        --red: #e84a5f;
+        --green: #4caf50;
+        --purple: #7e57c2;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #ffffff;
+        color: var(--ink);
+        font-family: Arial, Helvetica, sans-serif;
+        letter-spacing: 0;
+      }
+
+      main {
+        width: min(1320px, calc(100% - 44px));
+        margin: 0 auto;
+        padding: 34px 0 54px;
+      }
+
+      h1,
+      h2,
+      p {
+        margin-top: 0;
+      }
+
+      .page-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 18px;
+        align-items: end;
+        margin-bottom: 26px;
+        padding-bottom: 18px;
+        border-bottom: 2px solid var(--sketch);
+      }
+
+      .kicker {
+        margin: 0 0 8px;
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin-bottom: 8px;
+        font-size: clamp(2rem, 5vw, 3.7rem);
+        line-height: 0.98;
+      }
+
+      .subtitle {
+        max-width: 800px;
+        margin: 0;
+        color: var(--soft-ink);
+        line-height: 1.55;
+      }
+
+      .page-link {
+        display: inline-flex;
+        width: fit-content;
+        padding: 10px 12px;
+        border: 2px solid var(--sketch);
+        border-radius: 6px;
+        color: var(--ink);
+        font-size: 0.78rem;
+        font-weight: 800;
+        text-decoration: none;
+        text-transform: uppercase;
+        background: #ffffff;
+      }
+
+      .storyboard {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 28px 24px;
+      }
+
+      .frame-block {
+        display: grid;
+        gap: 10px;
+        break-inside: avoid;
+      }
+
+      .frame-top {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .frame-number {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        border: 2px solid var(--sketch);
+        border-radius: 50%;
+        font-weight: 800;
+        background: #ffffff;
+      }
+
+      .frame-title {
+        margin: 0;
+        font-size: 1.12rem;
+      }
+
+      .sketch-frame {
+        position: relative;
+        display: grid;
+        gap: 12px;
+        min-height: 420px;
+        padding: 16px;
+        border: 2px solid var(--sketch);
+        border-radius: 4px 8px 5px 7px;
+        background: #ffffff;
+      }
+
+      .sketch-frame::after {
+        content: "";
+        pointer-events: none;
+        position: absolute;
+        inset: 4px -5px -5px 5px;
+        z-index: -1;
+        border: 1px solid rgba(48, 50, 54, 0.3);
+        border-radius: 7px 4px 8px 5px;
+      }
+
+      .screen-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 28px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--sketch);
+        color: var(--muted);
+        font-size: 0.74rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .screen-note {
+        width: fit-content;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 8px 11px;
+        border: 1.5px solid var(--sketch);
+        border-radius: 4px;
+        color: var(--ink);
+        font-size: 0.9rem;
+        font-weight: 700;
+        line-height: 1.45;
+        text-align: center;
+        background: #ffffff;
+      }
+
+      .intro-copy {
+        display: grid;
+        gap: 8px;
+        max-width: 520px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .intro-copy p {
+        margin: 0;
+        color: var(--soft-ink);
+        line-height: 1.45;
+      }
+
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 92px));
+        justify-content: center;
+        gap: 12px 14px;
+      }
+
+      .card-grid.nine {
+        grid-template-columns: repeat(3, minmax(0, 82px));
+        gap: 9px 11px;
+      }
+
+      .card-unit {
+        display: grid;
+        justify-items: center;
+        gap: 5px;
+        padding: 5px;
+        border: 2px solid transparent;
+        border-radius: 5px;
+      }
+
+      .card-unit.selected {
+        border-color: var(--sketch);
+        background: #fafafa;
+      }
+
+      .card-unit.correct {
+        border-color: var(--green);
+      }
+
+      .card-unit.incorrect {
+        border-color: var(--red);
+      }
+
+      .set-card {
+        width: 76px;
+        height: 114px;
+        overflow: visible;
+      }
+
+      .nine .set-card {
+        width: 66px;
+        height: 99px;
+      }
+
+      .set-card .card-face {
+        fill: #ffffff;
+        stroke: #cfd3d8;
+        stroke-width: 1.35;
+      }
+
+      .set-card .symbol {
+        stroke-width: 2.45;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .card-label {
+        color: var(--muted);
+        font-size: 0.68rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .button-row,
+      .attribute-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .sketch-button,
+      .attribute-chip {
+        min-width: 76px;
+        padding: 8px 10px;
+        border: 2px solid var(--sketch);
+        border-radius: 4px;
+        color: var(--ink);
+        font-size: 0.8rem;
+        font-weight: 800;
+        text-align: center;
+        background: #ffffff;
+      }
+
+      .sketch-button.selected {
+        background: #f6f1e9;
+      }
+
+      .attribute-chip {
+        min-width: 0;
+        border-width: 1.5px;
+        color: var(--soft-ink);
+        border-radius: 999px;
+      }
+
+      .attribute-chip.highlight {
+        border-color: var(--green);
+      }
+
+      .feedback {
+        width: fit-content;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 8px 12px;
+        border: 2px solid var(--sketch);
+        border-radius: 4px;
+        font-weight: 800;
+        text-align: center;
+        background: #ffffff;
+      }
+
+      .feedback.correct {
+        border-color: var(--green);
+      }
+
+      .feedback.incorrect {
+        border-color: var(--red);
+      }
+
+      .breakdown {
+        width: min(470px, 100%);
+        margin: 0 auto;
+        border: 2px solid var(--sketch);
+        border-collapse: collapse;
+        background: #ffffff;
+      }
+
+      .breakdown th,
+      .breakdown td {
+        padding: 7px 9px;
+        border: 1px solid var(--sketch);
+        font-size: 0.8rem;
+        text-align: left;
+      }
+
+      .breakdown th {
+        background: #fafafa;
+        font-weight: 800;
+      }
+
+      .ok {
+        color: var(--green);
+        font-weight: 800;
+      }
+
+      .mismatch {
+        color: var(--red);
+        font-weight: 800;
+      }
+
+      .explanation p {
+        margin: 0 0 8px;
+        color: var(--soft-ink);
+        font-size: 0.94rem;
+        line-height: 1.55;
+      }
+
+      .load-notes {
+        display: grid;
+        gap: 5px;
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px solid var(--line);
+      }
+
+      .load-note {
+        color: var(--soft-ink);
+        font-size: 0.86rem;
+        line-height: 1.45;
+      }
+
+      .load-note strong {
+        color: var(--ink);
+      }
+
+      [contenteditable="true"] {
+        outline: 0;
+      }
+
+      [contenteditable="true"]:focus {
+        box-shadow: 0 0 0 2px rgba(216, 201, 180, 0.7);
+      }
+
+      @media (max-width: 980px) {
+        .storyboard {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 680px) {
+        main {
+          width: min(100% - 26px, 1320px);
+          padding-top: 24px;
+        }
+
+        .page-header {
+          grid-template-columns: 1fr;
+        }
+
+        .sketch-frame {
+          min-height: 390px;
+          padding: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header class="page-header">
+        <div>
+          <p class="kicker" contenteditable="true">Classroom UX Storyboard / Intermediate SET</p>
+          <h1 contenteditable="true">Find the Valid Set in a Group</h1>
+          <p class="subtitle" contenteditable="true">
+            Six sketch-style frames for the intermediate skill: compare multiple card groups and
+            select the only valid 3-card set from a larger board.
+          </p>
+        </div>
+        <a class="page-link" href="./set.html">Back to beginner storyboard</a>
+      </header>
+
+      <section class="storyboard" id="storyboard" aria-label="Six-frame intermediate SET storyboard"></section>
+    </main>
+
+    <script>
+      const COLORS = {
+        red: "#E84A5F",
+        green: "#4CAF50",
+        purple: "#7E57C2",
+      };
+
+      const sixCards = [
+        { label: "A", number: 1, color: "red", shape: "oval", fill: "open", set: true },
+        { label: "B", number: 2, color: "green", shape: "diamond", fill: "solid", set: true },
+        { label: "C", number: 3, color: "purple", shape: "squiggle", fill: "striped", set: true },
+        { label: "D", number: 1, color: "red", shape: "oval", fill: "solid" },
+        { label: "E", number: 1, color: "red", shape: "diamond", fill: "open" },
+        { label: "F", number: 1, color: "green", shape: "oval", fill: "open" },
+      ];
+
+      const nineCards = [
+        ...sixCards,
+        { label: "G", number: 1, color: "red", shape: "diamond", fill: "solid" },
+        { label: "H", number: 1, color: "green", shape: "oval", fill: "solid" },
+        { label: "I", number: 1, color: "green", shape: "diamond", fill: "open" },
+      ];
+
+      const frames = [
+        {
+          number: 1,
+          title: "Instructions: Compare Groups",
+          type: "rules",
+          explanation:
+            "The intermediate level starts by explaining that the learner is no longer given two anchors. Instead, they must scan a board of cards and find the only valid 3-card set.",
+          loads: [
+            ["Intrinsic Load", "the task is more complex because the learner must compare possible groups instead of completing one fixed pair."],
+          ],
+        },
+        {
+          number: 2,
+          title: "Step 1: Scan Six Cards",
+          type: "scanSix",
+          explanation:
+            "The first board uses six cards and contains exactly one valid set. The learner begins by scanning for likely groups without selecting yet.",
+          loads: [
+            ["Extraneous Load", "card labels and a stable 2-by-3 grid reduce visual search confusion."],
+          ],
+        },
+        {
+          number: 3,
+          title: "Step 2: Select Three Cards",
+          type: "selectCorrect",
+          explanation:
+            "The learner chooses cards A, B, and C as the possible set. This tests the target skill: compare multiple card groups and select the valid set.",
+          loads: [
+            ["Intrinsic Load", "the learner must hold three selected cards in mind while checking all four attributes."],
+            ["Germane Load", "active selection supports pattern recognition rather than passive rule reading."],
+          ],
+        },
+        {
+          number: 4,
+          title: "Step 3: See Why It Is a Set",
+          type: "correctFeedback",
+          explanation:
+            "Correct feedback highlights the selected set in green and breaks down why it works. The cards are the same as the earlier frames so the explanation feels connected.",
+          loads: [
+            ["Germane Load", "attribute-by-attribute feedback builds a reusable checking strategy."],
+          ],
+        },
+        {
+          number: 5,
+          title: "Step 4: Reject a Near Miss",
+          type: "incorrectFeedback",
+          explanation:
+            "The storyboard also shows a tempting wrong group from the same six-card board. Red feedback names the broken attributes so the learner understands why the group is not a set.",
+          loads: [
+            ["Extraneous Load", "red borders and a short table reduce the need for a long verbal explanation."],
+            ["Germane Load", "rejecting a near miss strengthens the learner's comparison strategy."],
+          ],
+        },
+        {
+          number: 6,
+          title: "Step 5: Transfer to Nine Cards",
+          type: "nineCards",
+          explanation:
+            "The final frame increases the board to nine cards while keeping only one valid set hidden. This previews the next level of difficulty after success with six cards.",
+          loads: [
+            ["Intrinsic Load", "search demand increases because there are more possible 3-card groups."],
+            ["Germane Load", "the learner transfers the same scanning strategy to a larger board."],
+          ],
+        },
+      ];
+
+      function renderFrame(frame) {
+        return `
+          <article class="frame-block" data-frame="${frame.number}">
+            <div class="frame-top">
+              <span class="frame-number">${frame.number}</span>
+              <h2 class="frame-title" contenteditable="true">${frame.title}</h2>
+            </div>
+            <div class="sketch-frame">
+              ${screenContent(frame)}
+            </div>
+            <div class="explanation">
+              <p contenteditable="true">${frame.explanation}</p>
+              ${loadNotes(frame.loads)}
+            </div>
+          </article>
+        `;
+      }
+
+      function screenContent(frame) {
+        if (frame.type === "rules") {
+          return `
+            <div class="screen-bar"><span>Intermediate SET</span><span>Rules</span></div>
+            <div class="intro-copy">
+              <p contenteditable="true"><strong>Find the one valid set hidden in the board.</strong></p>
+              <p contenteditable="true">Select exactly 3 cards. For each attribute, the 3 selected cards must be all same or all different.</p>
+            </div>
+            <div class="button-row">
+              <span class="sketch-button" contenteditable="true">6 cards first</span>
+              <span class="sketch-button" contenteditable="true">Only 1 set</span>
+              <span class="sketch-button" contenteditable="true">Select 3</span>
+            </div>
+            <p class="screen-note" contenteditable="true">Goal: compare multiple card groups and choose the valid set.</p>
+          `;
+        }
+
+        if (frame.type === "scanSix") {
+          return `
+            <div class="screen-bar"><span>6-card board</span><span>Scan first</span></div>
+            <p class="screen-note" contenteditable="true">There is exactly one set. Which 3 cards go together?</p>
+            ${cardGrid(sixCards, frame.number)}
+            <div class="attribute-row">
+              <span class="attribute-chip" contenteditable="true">Look for all same</span>
+              <span class="attribute-chip" contenteditable="true">Look for all different</span>
+            </div>
+          `;
+        }
+
+        if (frame.type === "selectCorrect") {
+          return `
+            <div class="screen-bar"><span>Selection state</span><span>A + B + C selected</span></div>
+            <p class="screen-note" contenteditable="true">User selects three cards and taps Submit Set.</p>
+            ${cardGrid(sixCards, frame.number, ["A", "B", "C"], "selected")}
+            <div class="button-row"><span class="sketch-button selected" contenteditable="true">Submit Set</span></div>
+          `;
+        }
+
+        if (frame.type === "correctFeedback") {
+          return `
+            <div class="screen-bar"><span>Feedback state</span><span>Correct</span></div>
+            ${cardGrid(sixCards, frame.number, ["A", "B", "C"], "correct")}
+            <div class="feedback correct" contenteditable="true">Correct. A, B, and C form a set.</div>
+            ${breakdownTable([
+              ["number", "all different", "works"],
+              ["color", "all different", "works"],
+              ["shape", "all different", "works"],
+              ["fill", "all different", "works"],
+            ])}
+          `;
+        }
+
+        if (frame.type === "incorrectFeedback") {
+          return `
+            <div class="screen-bar"><span>Feedback state</span><span>Near miss</span></div>
+            ${cardGrid(sixCards, frame.number, ["A", "D", "E"], "incorrect")}
+            <div class="feedback incorrect" contenteditable="true">Not quite. A, D, and E are not a set.</div>
+            ${breakdownTable([
+              ["number", "all same", "works"],
+              ["color", "all same", "works"],
+              ["shape", "mixed", "breaks rule"],
+              ["fill", "mixed", "breaks rule"],
+            ])}
+          `;
+        }
+
+        return `
+          <div class="screen-bar"><span>9-card board</span><span>Independent transfer</span></div>
+          <p class="screen-note" contenteditable="true">Find the only valid set. No hint shown.</p>
+          ${cardGrid(nineCards, frame.number, [], "", true)}
+          <div class="button-row"><span class="sketch-button" contenteditable="true">Submit selected 3</span></div>
+        `;
+      }
+
+      function cardGrid(cards, frameNumber, selectedLabels = [], state = "", compact = false) {
+        return `
+          <div class="card-grid ${compact ? "nine" : ""}">
+            ${cards.map((card, index) => cardUnit(card, frameNumber, index, selectedLabels, state)).join("")}
+          </div>
+        `;
+      }
+
+      function cardUnit(card, frameNumber, index, selectedLabels, state) {
+        const selected = selectedLabels.includes(card.label);
+        return `
+          <div class="card-unit ${selected ? state : ""}">
+            ${cardSvg(card, frameNumber, index)}
+            <span class="card-label" contenteditable="true">${card.label}</span>
+          </div>
+        `;
+      }
+
+      function cardSvg(card, frameNumber, index) {
+        const color = COLORS[card.color];
+        const patternId = `stripe-${frameNumber}-${index}-${card.color}`;
+        const yPositions = {
+          1: [57],
+          2: [42, 72],
+          3: [31, 57, 83],
+        }[card.number];
+        const pattern =
+          card.fill === "striped"
+            ? `<defs>
+                <pattern id="${patternId}" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                  <rect width="6" height="6" fill="#ffffff"></rect>
+                  <line x1="0" y1="0" x2="0" y2="6" stroke="${color}" stroke-width="1.25"></line>
+                </pattern>
+              </defs>`
+            : "";
+        const symbols = yPositions.map((y) => symbolSvg(card.shape, card.fill, color, patternId, y)).join("");
+        return `
+          <svg class="set-card" viewBox="0 0 76 114" role="img" aria-label="${card.label}: ${card.number} ${card.color} ${card.fill} ${card.shape}">
+            ${pattern}
+            <rect class="card-face" x="1.5" y="1.5" width="73" height="111" rx="8"></rect>
+            ${symbols}
+          </svg>
+        `;
+      }
+
+      function symbolSvg(shape, fillStyle, color, patternId, centerY) {
+        const fill =
+          fillStyle === "solid"
+            ? color
+            : fillStyle === "striped"
+            ? `url(#${patternId})`
+            : "#ffffff";
+        const common = `class="symbol" fill="${fill}" stroke="${color}"`;
+        if (shape === "oval") {
+          return `<rect ${common} x="15" y="${centerY - 9}" width="46" height="18" rx="9"></rect>`;
+        }
+        if (shape === "diamond") {
+          return `<polygon ${common} points="38,${centerY - 13} 60,${centerY} 38,${centerY + 13} 16,${centerY}"></polygon>`;
+        }
+        return `
+          <path ${common}
+            d="M16 ${centerY + 2}
+               C16 ${centerY - 10}, 28 ${centerY - 15}, 36 ${centerY - 9}
+               C43 ${centerY - 4}, 48 ${centerY - 14}, 58 ${centerY - 9}
+               C66 ${centerY - 5}, 65 ${centerY + 10}, 55 ${centerY + 12}
+               C47 ${centerY + 15}, 42 ${centerY + 7}, 34 ${centerY + 10}
+               C25 ${centerY + 14}, 16 ${centerY + 10}, 16 ${centerY + 2}Z">
+          </path>
+        `;
+      }
+
+      function breakdownTable(rows) {
+        return `
+          <table class="breakdown" aria-label="Attribute breakdown">
+            <thead>
+              <tr>
+                <th>attribute</th>
+                <th>pattern</th>
+                <th>rule check</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows
+                .map(
+                  ([attribute, pattern, result]) => `
+                    <tr>
+                      <td contenteditable="true">${attribute}</td>
+                      <td contenteditable="true">${pattern}</td>
+                      <td contenteditable="true" class="${result === "works" ? "ok" : "mismatch"}">${result}</td>
+                    </tr>
+                  `
+                )
+                .join("")}
+            </tbody>
+          </table>
+        `;
+      }
+
+      function loadNotes(loads) {
+        if (!loads || !loads.length) return "";
+        return `
+          <div class="load-notes">
+            ${loads
+              .map(
+                ([label, note]) => `
+                  <div class="load-note" contenteditable="true"><strong>${label}</strong> - ${note}</div>
+                `
+              )
+              .join("")}
+          </div>
+        `;
+      }
+
+      document.getElementById("storyboard").innerHTML = frames.map(renderFrame).join("");
+    </script>
+  </body>
+</html>
