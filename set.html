@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Beginner SET UX Storyboard</title>
+    <style>
+      :root {
+        --ink: #202124;
+        --soft-ink: #4f5358;
+        --muted: #74777b;
+        --sketch: #303236;
+        --line: #d8c9b4;
+        --line-soft: #eee6da;
+        --paper: #ffffff;
+        --red: #e84a5f;
+        --green: #4caf50;
+        --purple: #7e57c2;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #ffffff;
+        color: var(--ink);
+        font-family: Arial, Helvetica, sans-serif;
+        letter-spacing: 0;
+      }
+
+      main {
+        width: min(1320px, calc(100% - 44px));
+        margin: 0 auto;
+        padding: 34px 0 54px;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      .page-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 18px;
+        align-items: end;
+        margin-bottom: 26px;
+        padding-bottom: 18px;
+        border-bottom: 2px solid var(--sketch);
+      }
+
+      .kicker {
+        margin: 0 0 8px;
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin-bottom: 8px;
+        font-size: clamp(2rem, 5vw, 3.7rem);
+        line-height: 0.98;
+      }
+
+      .subtitle {
+        max-width: 780px;
+        margin: 0;
+        color: var(--soft-ink);
+        line-height: 1.55;
+      }
+
+      .mockup-link {
+        display: inline-flex;
+        width: fit-content;
+        padding: 10px 12px;
+        border: 2px solid var(--sketch);
+        border-radius: 6px;
+        color: var(--ink);
+        font-size: 0.78rem;
+        font-weight: 800;
+        text-decoration: none;
+        text-transform: uppercase;
+        background: #ffffff;
+      }
+
+      .storyboard {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 28px 24px;
+      }
+
+      .frame-block {
+        display: grid;
+        gap: 10px;
+        break-inside: avoid;
+      }
+
+      .frame-top {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .frame-number {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        border: 2px solid var(--sketch);
+        border-radius: 50%;
+        font-weight: 800;
+        background: #ffffff;
+      }
+
+      .frame-title {
+        margin: 0;
+        font-size: 1.12rem;
+      }
+
+      .sketch-frame {
+        position: relative;
+        display: grid;
+        gap: 12px;
+        min-height: 390px;
+        padding: 16px;
+        border: 2px solid var(--sketch);
+        border-radius: 4px 8px 5px 7px;
+        background: #ffffff;
+      }
+
+      .sketch-frame::after {
+        content: "";
+        pointer-events: none;
+        position: absolute;
+        inset: 4px -5px -5px 5px;
+        z-index: -1;
+        border: 1px solid rgba(48, 50, 54, 0.3);
+        border-radius: 7px 4px 8px 5px;
+      }
+
+      .screen-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 28px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--sketch);
+        color: var(--muted);
+        font-size: 0.74rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .screen-note {
+        width: fit-content;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 8px 11px;
+        border: 1.5px solid var(--sketch);
+        border-radius: 4px;
+        color: var(--ink);
+        font-size: 0.92rem;
+        font-weight: 700;
+        line-height: 1.45;
+        text-align: center;
+        background: #ffffff;
+      }
+
+      .intro-copy {
+        display: grid;
+        gap: 8px;
+        max-width: 470px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .intro-copy p {
+        margin: 0;
+        color: var(--soft-ink);
+        line-height: 1.45;
+      }
+
+      .card-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
+      }
+
+      .set-card {
+        width: 82px;
+        height: 124px;
+        overflow: visible;
+      }
+
+      .set-card .card-face {
+        fill: #ffffff;
+        stroke: #cfd3d8;
+        stroke-width: 1.35;
+      }
+
+      .set-card .symbol {
+        stroke-width: 2.6;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .card-unit {
+        display: grid;
+        justify-items: center;
+        gap: 5px;
+      }
+
+      .card-label {
+        color: var(--muted);
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .button-row {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+      }
+
+      .sketch-button {
+        min-width: 78px;
+        padding: 9px 13px;
+        border: 2px solid var(--sketch);
+        border-radius: 4px;
+        color: var(--ink);
+        font-size: 0.86rem;
+        font-weight: 800;
+        text-align: center;
+        background: #ffffff;
+      }
+
+      .sketch-button.selected {
+        background: #f6f1e9;
+      }
+
+      .feedback {
+        width: fit-content;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 8px 12px;
+        border: 2px solid var(--sketch);
+        border-radius: 4px;
+        font-weight: 800;
+        text-align: center;
+        background: #ffffff;
+      }
+
+      .feedback.correct {
+        border-color: var(--green);
+      }
+
+      .feedback.incorrect {
+        border-color: var(--red);
+      }
+
+      .anchor-candidate-layout {
+        display: grid;
+        gap: 10px;
+      }
+
+      .mini-label {
+        color: var(--muted);
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .choice-row {
+        display: grid;
+        gap: 5px;
+      }
+
+      .choice-row.correct-choice,
+      .choice-row.incorrect-choice {
+        padding: 8px;
+        border: 2px solid var(--green);
+        border-radius: 5px;
+      }
+
+      .choice-row.incorrect-choice {
+        border-color: var(--red);
+      }
+
+      .skill-stack {
+        display: grid;
+        gap: 7px;
+        width: min(500px, 100%);
+        margin: 0 auto;
+      }
+
+      .skill-stack span {
+        padding: 7px 9px;
+        border: 1.5px solid var(--sketch);
+        border-radius: 4px;
+        color: var(--soft-ink);
+        font-size: 0.8rem;
+        font-weight: 800;
+        background: #ffffff;
+      }
+
+      .breakdown {
+        width: min(470px, 100%);
+        margin: 0 auto;
+        border: 2px solid var(--sketch);
+        border-collapse: collapse;
+        background: #ffffff;
+      }
+
+      .breakdown th,
+      .breakdown td {
+        padding: 7px 9px;
+        border: 1px solid var(--sketch);
+        font-size: 0.82rem;
+        text-align: left;
+      }
+
+      .breakdown th {
+        background: #fafafa;
+        font-weight: 800;
+      }
+
+      .mismatch {
+        color: var(--red);
+        font-weight: 800;
+      }
+
+      .ok {
+        color: var(--green);
+        font-weight: 800;
+      }
+
+      .attribute-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .attribute-chip {
+        padding: 7px 9px;
+        border: 1.5px solid var(--sketch);
+        border-radius: 999px;
+        color: var(--soft-ink);
+        font-size: 0.78rem;
+        font-weight: 800;
+        background: #ffffff;
+      }
+
+      .attribute-chip.highlight {
+        border-color: var(--green);
+      }
+
+      .explanation {
+        padding: 0 2px;
+      }
+
+      .explanation p {
+        margin: 0 0 8px;
+        color: var(--soft-ink);
+        font-size: 0.94rem;
+        line-height: 1.55;
+      }
+
+      .load-notes {
+        display: grid;
+        gap: 5px;
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px solid var(--line);
+      }
+
+      .load-note {
+        color: var(--soft-ink);
+        font-size: 0.86rem;
+        line-height: 1.45;
+      }
+
+      .load-note strong {
+        color: var(--ink);
+      }
+
+      [contenteditable="true"] {
+        outline: 0;
+      }
+
+      [contenteditable="true"]:focus {
+        box-shadow: 0 0 0 2px rgba(216, 201, 180, 0.7);
+      }
+
+      @media (max-width: 980px) {
+        .storyboard {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 680px) {
+        main {
+          width: min(100% - 26px, 1320px);
+          padding-top: 24px;
+        }
+
+        .page-header {
+          grid-template-columns: 1fr;
+        }
+
+        .sketch-frame {
+          min-height: 360px;
+          padding: 12px;
+        }
+
+        .set-card {
+          width: 70px;
+          height: 106px;
+        }
+      }
+
+      @media print {
+        main {
+          width: 100%;
+          padding: 0;
+        }
+
+        .page-header {
+          display: none;
+        }
+
+        .storyboard {
+          grid-template-columns: 1fr;
+          gap: 0;
+        }
+
+        .frame-block {
+          min-height: 100vh;
+          padding: 28px;
+          page-break-after: always;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header class="page-header">
+        <div>
+          <p class="kicker" contenteditable="true">Classroom UX Storyboard / Beginner SET</p>
+          <h1 contenteditable="true">Complete a Set from Two Cards</h1>
+          <p class="subtitle" contenteditable="true">
+            Six sketch-style frames focused on one beginner skill: given two anchor cards, the
+            player identifies the third card that creates a valid set.
+          </p>
+        </div>
+        <a class="mockup-link" href="./mockeuphtml.html">Open level mockup</a>
+      </header>
+
+      <section class="storyboard" id="storyboard" aria-label="Six-frame SET learning storyboard"></section>
+    </main>
+
+    <script>
+      const COLORS = {
+        red: "#E84A5F",
+        green: "#4CAF50",
+        purple: "#7E57C2",
+      };
+
+      const frames = [
+        {
+          number: 1,
+          title: "Instructions: Complete the Set",
+          type: "instructions",
+          explanation:
+            "The first storyboard frame explains the goal of the beginner level. The learner is told that they will see two anchor cards and choose one third card that makes every attribute all same or all different.",
+          loads: [
+            ["Intrinsic Load", "the rule is introduced before the player has to choose an answer."],
+            ["Extraneous Load", "the sketch previews the same anchor-and-candidate layout used in every later frame."],
+            ["Germane Load", "the learner starts building the idea of a missing third card."],
+          ],
+        },
+        {
+          number: 2,
+          title: "Step 1: Read the Anchors",
+          type: "readAnchors",
+          anchors: [
+            { label: "Anchor 1", number: 1, color: "red", shape: "oval", fill: "open" },
+            { label: "Anchor 2", number: 2, color: "red", shape: "diamond", fill: "solid" },
+          ],
+          explanation:
+            "The learner first studies the two anchor cards before seeing the answer as just a guess. They compare each attribute and predict what the missing card should look like.",
+          loads: [
+            ["Intrinsic Load", "the task is constrained to two known cards before the learner evaluates three choices."],
+            ["Extraneous Load", "attribute notes are short and placed beside the same cards they describe."],
+            ["Germane Load", "the learner practices forming a target card from the anchor pattern."],
+          ],
+        },
+        {
+          number: 3,
+          title: "Step 2: Choose One Candidate",
+          type: "completeGuided",
+          anchors: [
+            { label: "Anchor 1", number: 1, color: "red", shape: "oval", fill: "open" },
+            { label: "Anchor 2", number: 2, color: "red", shape: "diamond", fill: "solid" },
+          ],
+          candidates: [
+            { label: "Choice A", number: 3, color: "red", shape: "squiggle", fill: "striped", correct: true },
+            { label: "Choice B", number: 3, color: "green", shape: "squiggle", fill: "striped" },
+            { label: "Choice C", number: 2, color: "red", shape: "squiggle", fill: "striped" },
+          ],
+          explanation:
+            "The main beginner task appears: two anchor cards are fixed at the top and three candidate cards appear below. A light guided hint keeps the first attempt focused on comparing the four attributes.",
+          loads: [
+            ["Intrinsic Load", "three choices increase decision difficulty while keeping the search space small."],
+            ["Extraneous Load", "anchors stay on top and choices stay below so the learner never has to relearn the layout."],
+            ["Germane Load", "comparing the candidates strengthens the complete-a-set schema."],
+          ],
+        },
+        {
+          number: 4,
+          title: "Step 3: Correct Choice Feedback",
+          type: "correctChoice",
+          anchors: [
+            { label: "Anchor 1", number: 1, color: "red", shape: "oval", fill: "open" },
+            { label: "Anchor 2", number: 2, color: "red", shape: "diamond", fill: "solid" },
+          ],
+          selected: { label: "Choice A", number: 3, color: "red", shape: "squiggle", fill: "striped" },
+          explanationText:
+            "All three cards have a different number of shapes, all have the same color, all have a different shape, and all have a different shading. That's a set!",
+          chips: ["number: different", "color: same", "shape: different", "fill: different"],
+          explanation:
+            "When the learner chooses the correct third card, all three cards are grouped with a green border. The explanation connects the visual answer to the rule so the learner understands why it works.",
+          loads: [
+            ["Intrinsic Load", "the decision has been made, so the learner can focus on understanding the rule result."],
+            ["Extraneous Load", "green border feedback communicates success immediately before the explanation is read."],
+            ["Germane Load", "step-by-step feedback explains why the choice is correct and supports rule internalization."],
+          ],
+        },
+        {
+          number: 5,
+          title: "Step 4: Incorrect Choice Feedback",
+          type: "incorrectChoice",
+          anchors: [
+            { label: "Anchor 1", number: 1, color: "red", shape: "oval", fill: "open" },
+            { label: "Anchor 2", number: 2, color: "red", shape: "diamond", fill: "solid" },
+          ],
+          selected: { label: "Choice B", number: 3, color: "green", shape: "squiggle", fill: "striped" },
+          explanationText:
+            "Two cards are red and one is green. For a set, colors must be all the same or all different. Try again!",
+          explanation:
+            "This frame shows what happens if the learner picks a tempting wrong answer from the same example. The red border and short explanation identify color as the broken attribute, then let the learner try again.",
+          loads: [
+            ["Intrinsic Load", "the feedback isolates the broken attribute instead of asking the learner to re-check everything at once."],
+            ["Extraneous Load", "immediate red feedback and a named broken attribute reduce the need for long explanations."],
+            ["Germane Load", "identifying the attribute that breaks the set strengthens pattern repair."],
+          ],
+        },
+        {
+          number: 6,
+          title: "Step 5: Independent Try",
+          type: "independentRound",
+          anchors: [
+            { label: "Anchor 1", number: 1, color: "red", shape: "oval", fill: "open" },
+            { label: "Anchor 2", number: 2, color: "red", shape: "diamond", fill: "solid" },
+          ],
+          candidates: [
+            { label: "Choice A", number: 3, color: "red", shape: "squiggle", fill: "striped", correct: true },
+            { label: "Choice B", number: 3, color: "green", shape: "squiggle", fill: "striped" },
+            { label: "Choice C", number: 2, color: "red", shape: "squiggle", fill: "striped" },
+          ],
+          explanation:
+            "The final frame returns to the same anchor-and-candidate example without the guided answer shown. This makes the testable skill clear: given two cards, the player identifies the third card that creates a set.",
+          loads: [
+            ["Intrinsic Load", "all four attributes matter, but the example is familiar from the previous frames."],
+            ["Extraneous Load", "the same layout and same cards remove unnecessary new information."],
+            ["Germane Load", "independent selection shows whether the complete-a-set pattern has been internalized."],
+          ],
+        },
+      ];
+
+      function renderFrame(frame) {
+        return `
+          <article class="frame-block" data-frame="${frame.number}">
+            <div class="frame-top">
+              <span class="frame-number">${frame.number}</span>
+              <h2 class="frame-title" contenteditable="true">${frame.title}</h2>
+            </div>
+            <div class="sketch-frame">
+              ${screenContent(frame)}
+            </div>
+            <div class="explanation">
+              <p contenteditable="true">${frame.explanation}</p>
+              ${loadNotes(frame.loads)}
+            </div>
+          </article>
+        `;
+      }
+
+      function screenContent(frame) {
+        if (frame.type === "instructions") {
+          return `
+            <div class="screen-bar"><span>Beginner SET</span><span>Instructions</span></div>
+            <div class="intro-copy">
+              <p contenteditable="true"><strong>In SET, every attribute must be all same or all different.</strong></p>
+              <p contenteditable="true">Your job: use 2 anchor cards to choose the 1 candidate card that completes the set.</p>
+            </div>
+            <div class="button-row">
+              <span class="sketch-button" contenteditable="true">Anchor 1</span>
+              <span class="sketch-button" contenteditable="true">Anchor 2</span>
+              <span class="sketch-button" contenteditable="true">Pick 1 of 3 choices</span>
+            </div>
+            <div class="skill-stack">
+              <span contenteditable="true">Skill focus: Complete a set of two cards</span>
+              <span contenteditable="true">Testable action: Given 2 cards, identify a third card that creates a set</span>
+              <span contenteditable="true">Feedback: green border for correct, red border for incorrect</span>
+            </div>
+          `;
+        }
+
+        if (frame.type === "readAnchors") {
+          return `
+            <div class="screen-bar"><span>Skill: complete a set</span><span>Read anchors</span></div>
+            <div class="mini-label" contenteditable="true">Anchor cards</div>
+            ${cardRow(frame.anchors, frame.number, "anchor-row")}
+            <p class="screen-note" contenteditable="true">What must the missing third card do?</p>
+            <div class="attribute-row">
+              <span class="attribute-chip highlight" contenteditable="true">number needs 3</span>
+              <span class="attribute-chip highlight" contenteditable="true">color stays red</span>
+              <span class="attribute-chip highlight" contenteditable="true">shape needs squiggle</span>
+              <span class="attribute-chip highlight" contenteditable="true">fill needs striped</span>
+            </div>
+            <div class="skill-stack">
+              <span contenteditable="true">Target card: 3 red striped squiggles</span>
+            </div>
+          `;
+        }
+
+        if (frame.type === "completeGuided") {
+          return `
+            <div class="screen-bar"><span>Skill: complete a set</span><span>2 anchors + 3 choices</span></div>
+            <div class="anchor-candidate-layout">
+              <div class="mini-label" contenteditable="true">Anchor cards</div>
+              ${cardRow(frame.anchors, frame.number, "anchor-row")}
+              <p class="screen-note" contenteditable="true">Which card completes the set? Choose one:</p>
+              <div class="mini-label" contenteditable="true">Candidate cards</div>
+              ${cardRow(frame.candidates, frame.number, "candidate-row")}
+            </div>
+            <div class="attribute-row">
+              <span class="attribute-chip highlight" contenteditable="true">hint: match the target card from Step 1</span>
+            </div>
+          `;
+        }
+
+        if (frame.type === "correctChoice") {
+          return `
+            <div class="screen-bar"><span>Feedback screen</span><span>Correct choice</span></div>
+            <div class="choice-row correct-choice">
+              <div class="mini-label" contenteditable="true">Completed set turns green</div>
+              ${cardRow([...frame.anchors, frame.selected], frame.number)}
+            </div>
+            <div class="feedback correct" contenteditable="true">Correct</div>
+            <p class="screen-note" contenteditable="true">${frame.explanationText}</p>
+            <div class="attribute-row">
+              ${frame.chips
+                .map((chip) => `<span class="attribute-chip highlight" contenteditable="true">${chip}</span>`)
+                .join("")}
+            </div>
+          `;
+        }
+
+        if (frame.type === "incorrectChoice") {
+          return `
+            <div class="screen-bar"><span>Feedback screen</span><span>Incorrect choice</span></div>
+            <div class="choice-row incorrect-choice">
+              <div class="mini-label" contenteditable="true">Attempted set turns red</div>
+              ${cardRow([...frame.anchors, frame.selected], frame.number)}
+            </div>
+            <div class="feedback incorrect" contenteditable="true">Not quite</div>
+            <p class="screen-note" contenteditable="true">${frame.explanationText}</p>
+            ${breakdownTable([
+              ["number", "different", "ok"],
+              ["color", "mixed", "mismatch"],
+              ["shape", "different", "ok"],
+              ["fill", "different", "ok"],
+            ])}
+            <div class="button-row">
+              <span class="sketch-button" contenteditable="true">Try again</span>
+            </div>
+          `;
+        }
+
+        if (frame.type === "independentRound") {
+          return `
+            <div class="screen-bar"><span>Skill: independent transfer</span><span>Next round</span></div>
+            <div class="anchor-candidate-layout">
+              <div class="mini-label" contenteditable="true">Anchor cards</div>
+              ${cardRow(frame.anchors, frame.number, "anchor-row")}
+              <p class="screen-note" contenteditable="true">Which card completes the set? Choose one:</p>
+              <div class="mini-label" contenteditable="true">Candidate cards</div>
+              ${cardRow(frame.candidates, frame.number, "candidate-row")}
+            </div>
+            <div class="attribute-row">
+              <span class="attribute-chip" contenteditable="true">No hint</span>
+              <span class="attribute-chip" contenteditable="true">Choose one</span>
+              <span class="attribute-chip" contenteditable="true">Next round after correct answer</span>
+            </div>
+          `;
+        }
+
+        return "";
+      }
+
+      function cardRow(cards, frameNumber, extraClass = "") {
+        return `
+          <div class="card-row ${extraClass}">
+            ${cards.map((card, index) => cardUnit(card, frameNumber, index)).join("")}
+          </div>
+        `;
+      }
+
+      function cardUnit(card, frameNumber, index) {
+        return `
+          <div class="card-unit">
+            ${cardSvg(card, frameNumber, index)}
+            <span class="card-label" contenteditable="true">${card.label}</span>
+          </div>
+        `;
+      }
+
+      function cardSvg(card, frameNumber, index) {
+        const color = COLORS[card.color];
+        const patternId = `stripe-${frameNumber}-${index}-${card.color}`;
+        const yPositions = {
+          1: [62],
+          2: [45, 79],
+          3: [34, 62, 90],
+        }[card.number];
+
+        const pattern =
+          card.fill === "striped"
+            ? `<defs>
+                <pattern id="${patternId}" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                  <rect width="6" height="6" fill="#ffffff"></rect>
+                  <line x1="0" y1="0" x2="0" y2="6" stroke="${color}" stroke-width="1.25"></line>
+                </pattern>
+              </defs>`
+            : "";
+
+        const symbols = yPositions
+          .map((y) => symbolSvg(card.shape, card.fill, color, patternId, y))
+          .join("");
+
+        return `
+          <svg class="set-card" viewBox="0 0 82 124" role="img" aria-label="${card.label}: ${card.number} ${card.color} ${card.fill} ${card.shape}">
+            ${pattern}
+            <rect class="card-face" x="1.5" y="1.5" width="79" height="121" rx="8"></rect>
+            ${symbols}
+          </svg>
+        `;
+      }
+
+      function symbolSvg(shape, fillStyle, color, patternId, centerY) {
+        const fill =
+          fillStyle === "solid"
+            ? color
+            : fillStyle === "striped"
+            ? `url(#${patternId})`
+            : "#ffffff";
+        const common = `class="symbol" fill="${fill}" stroke="${color}"`;
+
+        if (shape === "oval") {
+          return `<rect ${common} x="17" y="${centerY - 10}" width="48" height="20" rx="10"></rect>`;
+        }
+
+        if (shape === "diamond") {
+          return `<polygon ${common} points="41,${centerY - 14} 63,${centerY} 41,${centerY + 14} 19,${centerY}"></polygon>`;
+        }
+
+        return `
+          <path ${common}
+            d="M18 ${centerY + 2}
+               C18 ${centerY - 10}, 30 ${centerY - 16}, 39 ${centerY - 10}
+               C46 ${centerY - 5}, 51 ${centerY - 15}, 61 ${centerY - 10}
+               C70 ${centerY - 5}, 68 ${centerY + 10}, 58 ${centerY + 13}
+               C49 ${centerY + 16}, 44 ${centerY + 8}, 36 ${centerY + 11}
+               C26 ${centerY + 15}, 18 ${centerY + 11}, 18 ${centerY + 2}Z">
+          </path>
+        `;
+      }
+
+      function breakdownTable(rows) {
+        return `
+          <table class="breakdown" aria-label="Attribute breakdown">
+            <thead>
+              <tr>
+                <th>attribute</th>
+                <th>result</th>
+                <th>rule check</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows
+                .map(
+                  ([attribute, result, status]) => `
+                    <tr>
+                      <td contenteditable="true">${attribute}</td>
+                      <td contenteditable="true" class="${status === "mismatch" ? "mismatch" : "ok"}">${result}</td>
+                      <td contenteditable="true">${status === "mismatch" ? "breaks rule" : "works"}</td>
+                    </tr>
+                  `
+                )
+                .join("")}
+            </tbody>
+          </table>
+        `;
+      }
+
+      function loadNotes(loads) {
+        if (!loads || !loads.length) return "";
+        return `
+          <div class="load-notes">
+            ${loads
+              .map(
+                ([label, note]) => `
+                  <div class="load-note" contenteditable="true"><strong>${label}</strong> - ${note}</div>
+                `
+              )
+              .join("")}
+          </div>
+        `;
+      }
+
+      document.getElementById("storyboard").innerHTML = frames.map(renderFrame).join("");
+    </script>
+  </body>
+</html>
