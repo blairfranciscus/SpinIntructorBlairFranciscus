@@ -563,14 +563,24 @@
       }
 
       function HomePage({ onStart, gear, onIncreaseGear }) {
+        const [brandVisible, setBrandVisible] = useState(false);
+
+        useEffect(() => {
+          setBrandVisible(false);
+          const timer = window.setTimeout(() => setBrandVisible(true), 850);
+          return () => window.clearTimeout(timer);
+        }, []);
+
         return (
           <section className="hero section-screen">
             <div className="hero-copy">
               <NeonWordWall />
-              <div className="hero-brand is-visible">
+              <div className={`hero-brand ${brandVisible ? "is-visible" : ""}`}>
                 <h1>Ride Lab</h1>
               </div>
-              <HomeGearIntro gear={gear} onIncreaseGear={onIncreaseGear} />
+              <div className={`hero-support ${brandVisible ? "is-visible" : ""}`}>
+                <HomeGearIntro gear={gear} onIncreaseGear={onIncreaseGear} />
+              </div>
               <div className={`hero-support ${gear >= 1 ? "is-visible" : ""}`}>
                 <p className="tagline">Built on BPM</p>
                 <p>
@@ -681,7 +691,8 @@
       function NeonWordWall() {
         return (
           <div className="word-wall" aria-live="polite">
-            <span>POWER THROUGH</span>
+            <span className="power-word power-word-first">POWER</span>
+            <span className="power-word power-word-second">THROUGH</span>
           </div>
         );
       }
