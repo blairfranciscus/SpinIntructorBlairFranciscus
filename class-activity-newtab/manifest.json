@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "Programming Quotes New Tab",
+  "version": "1.0.0",
+  "description": "Overrides the Chrome new tab page with a random programming quote.",
+  "chrome_url_overrides": {
+    "newtab": "hello.html"
+  },
+  "host_permissions": [
+    "https://cse2004.com/*"
+  ]
+}
