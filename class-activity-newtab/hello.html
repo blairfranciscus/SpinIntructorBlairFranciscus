@@ -15,14 +15,52 @@
   <body>
     <main class="page-shell">
       <section class="quote-card">
-        <p class="eyebrow">Chrome Extension Activity</p>
-        <h1>Loading a programming quote...</h1>
+        <div class="top-bar">
+          <div>
+            <p class="eyebrow">Chrome Extension Activity</p>
+            <p class="label">Programming quote new tab</p>
+          </div>
+          <div class="clock-panel" aria-label="Current date and time">
+            <p id="current-time">--:--</p>
+            <p id="current-date">Loading date...</p>
+          </div>
+        </div>
+
+        <div class="quote-wrap">
+          <p class="quote-mark" aria-hidden="true">“</p>
+          <h1 id="quote-text">Loading a programming quote...</h1>
+        </div>
+
         <p class="subtext">
-          Open a new tab to get a fresh quote from the class API.
+          Every new tab pulls a fresh quote from the class API. Use the buttons
+          below to load another one or copy your favorite line.
         </p>
+
+        <div class="stats-row" aria-label="Quote activity">
+          <article class="stat-card">
+            <span class="stat-label">Quotes loaded</span>
+            <strong id="quote-count">0</strong>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">Shortcut</span>
+            <strong>Refresh tab</strong>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">Source</span>
+            <strong>cse2004 API</strong>
+          </article>
+        </div>
+
         <div class="actions">
           <button id="refresh-quote" type="button">Show another quote</button>
-          <p id="status-message" aria-live="polite"></p>
+          <button id="copy-quote" class="secondary-button" type="button">
+            Copy quote
+          </button>
+        </div>
+
+        <div class="footer-row">
+          <p id="status-message" aria-live="polite">Waiting for your first quote.</p>
+          <p class="tip">Tip: open a new tab any time you want a new prompt.</p>
         </div>
       </section>
     </main>
