@@ -581,9 +581,10 @@ p {
   border: 1px solid var(--line);
   border-radius: 8px;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 26%),
-    radial-gradient(circle at 55% 42%, rgba(0, 212, 255, 0.16), transparent 20rem),
-    #08090d;
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 22%),
+    radial-gradient(circle at 64% 58%, rgba(255, 255, 255, 0.1), transparent 18rem),
+    radial-gradient(circle at 82% 18%, rgba(0, 212, 255, 0.08), transparent 16rem),
+    linear-gradient(180deg, #11141b, #07080c 62%, #050507);
   box-shadow: var(--shadow);
   opacity: 0;
   transform: translateY(22px) scale(0.985);
@@ -600,9 +601,9 @@ p {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 54px 54px;
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 64px 64px;
   mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), transparent 75%);
 }
 
@@ -614,7 +615,7 @@ p {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
-  color: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.08);
   font-family: "Space Grotesk", Inter, sans-serif;
   font-size: clamp(1.8rem, 5vw, 4.5rem);
   font-weight: 900;
@@ -622,6 +623,7 @@ p {
   text-transform: uppercase;
   opacity: 0;
   transition: opacity 900ms ease 120ms;
+  filter: blur(0.2px);
 }
 
 .led-wall.is-visible {
@@ -629,57 +631,120 @@ p {
 }
 
 .led-wall span:nth-child(1) {
-  color: rgba(0, 212, 255, 0.34);
+  color: rgba(0, 212, 255, 0.18);
 }
 
 .led-wall span:nth-child(2) {
-  color: rgba(255, 59, 127, 0.28);
+  color: rgba(255, 255, 255, 0.12);
 }
 
 .led-wall span:nth-child(3) {
-  color: rgba(45, 248, 160, 0.26);
+  color: rgba(45, 248, 160, 0.14);
 }
 
 .led-wall span:nth-child(4) {
-  color: rgba(215, 255, 56, 0.24);
+  color: rgba(255, 255, 255, 0.1);
 }
 
 .bike-silhouette {
   position: absolute;
-  right: -22px;
-  bottom: 58px;
-  width: min(760px, 112%);
+  right: -8px;
+  bottom: 40px;
+  width: min(800px, 108%);
   overflow: visible;
+  filter: drop-shadow(0 26px 30px rgba(0, 0, 0, 0.45));
 }
 
-.bike-silhouette circle,
 .bike-silhouette line,
 .bike-silhouette path {
   fill: none;
-  stroke: rgba(246, 248, 255, 0.9);
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 12;
 }
 
-.bike-silhouette .wheel {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: spinWheel 4s linear infinite;
+.bike-silhouette .bike-shadow {
+  fill: rgba(0, 0, 0, 0.34);
 }
 
-.bike-silhouette .wheel circle {
-  stroke: rgba(0, 212, 255, 0.78);
+.bike-silhouette .bike-base line {
+  stroke: #49505c;
+  stroke-width: 15;
 }
 
-.bike-silhouette .wheel line {
-  stroke: rgba(255, 255, 255, 0.26);
+.bike-silhouette .bike-frame line {
+  stroke: #d9dee8;
+  stroke-width: 15;
+}
+
+.bike-silhouette .bike-details line {
+  stroke: #9aa3af;
+  stroke-width: 11;
+}
+
+.bike-silhouette .saddle {
+  fill: #1c212b;
+  stroke: #d9dee8;
   stroke-width: 5;
 }
 
+.bike-silhouette .handlebars {
+  stroke: #1b2029;
+  stroke-width: 10;
+}
+
+.bike-silhouette .bike-console {
+  fill: rgba(232, 238, 247, 0.14);
+  stroke: rgba(232, 238, 247, 0.26);
+  stroke-width: 2;
+}
+
+.bike-silhouette .bottle {
+  fill: rgba(0, 212, 255, 0.14);
+  stroke: rgba(216, 226, 238, 0.42);
+  stroke-width: 3;
+}
+
+.bike-silhouette .chain-guard {
+  fill: #141820;
+  stroke: #59606d;
+  stroke-width: 7;
+}
+
+.bike-silhouette .flywheel.outer {
+  fill: rgba(12, 14, 18, 0.68);
+  stroke: #aeb7c4;
+  stroke-width: 12;
+}
+
+.bike-silhouette .flywheel.inner {
+  fill: none;
+  stroke: rgba(220, 228, 239, 0.32);
+  stroke-width: 7;
+  stroke-dasharray: 8 14;
+}
+
+.bike-silhouette .flywheel.core {
+  fill: #dfe6ef;
+}
+
+.bike-silhouette .crank.outer {
+  fill: #10141a;
+  stroke: #77808c;
+  stroke-width: 7;
+}
+
+.bike-silhouette .crank.inner {
+  fill: #dfe6ef;
+}
+
+.bike-silhouette .crank-arm {
+  stroke: #b1bac7;
+  stroke-width: 8;
+}
+
 .bike-silhouette .pedal {
-  stroke: var(--acid);
-  animation: pedalPulse 1.2s ease-in-out infinite;
+  stroke: #1a2028;
+  stroke-width: 8;
 }
 
 .studio-floor {
@@ -690,24 +755,9 @@ p {
   height: 180px;
   transform: perspective(360px) rotateX(62deg);
   background:
-    linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.25), transparent),
-    repeating-linear-gradient(90deg, transparent 0 58px, rgba(255, 255, 255, 0.08) 59px 60px);
-}
-
-@keyframes spinWheel {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes pedalPulse {
-  0%,
-  100% {
-    opacity: 0.55;
-  }
-  50% {
-    opacity: 1;
-  }
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent),
+    repeating-linear-gradient(90deg, transparent 0 66px, rgba(255, 255, 255, 0.05) 67px 68px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
 }
 
 .content-page {
@@ -1711,7 +1761,9 @@ p {
   }
 
   .bike-silhouette {
-    width: 128%;
+    right: -28px;
+    bottom: 24px;
+    width: 118%;
   }
 
   .metric-grid,

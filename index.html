@@ -584,8 +584,8 @@
               <div className={`hero-support ${gear >= 1 ? "is-visible" : ""}`}>
                 <p className="tagline">Built on BPM</p>
                 <p>
-                  Learn how to build a ride through bike setup, beat selection, movement cues, and
-                  the final emotional close.
+                  Learn how to put together a spin class through bike setup, music selection,
+                  movement cues, and how to craft a community.
                 </p>
                 <button className="primary-cta" onClick={onStart}>Enter Ride Lab</button>
               </div>
@@ -699,41 +699,53 @@
 
       function BikeSilhouette() {
         return (
-          <svg className="bike-silhouette" viewBox="0 0 760 430" role="img" aria-label="Spin bike silhouette">
-            <defs>
-              <filter id="bikeGlow">
-                <feGaussianBlur stdDeviation="5" result="blur" />
-                <feMerge>
-                  <feMergeNode in="blur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
-            <g className="wheel wheel-front">
-              <circle cx="545" cy="290" r="92" />
-              <circle cx="545" cy="290" r="56" />
-              <line x1="545" y1="198" x2="545" y2="382" />
-              <line x1="453" y1="290" x2="637" y2="290" />
-              <line x1="480" y1="225" x2="610" y2="355" />
-              <line x1="610" y1="225" x2="480" y2="355" />
+          <svg className="bike-silhouette" viewBox="0 0 820 430" role="img" aria-label="Indoor cycling bike illustration">
+            <ellipse className="bike-shadow" cx="430" cy="354" rx="245" ry="28" />
+
+            <g className="bike-base">
+              <line x1="150" y1="338" x2="325" y2="338" />
+              <line x1="505" y1="338" x2="690" y2="338" />
+              <line x1="170" y1="326" x2="170" y2="350" />
+              <line x1="305" y1="326" x2="305" y2="350" />
+              <line x1="525" y1="326" x2="525" y2="350" />
+              <line x1="670" y1="326" x2="670" y2="350" />
             </g>
-            <g className="wheel wheel-back">
-              <circle cx="255" cy="290" r="92" />
-              <circle cx="255" cy="290" r="56" />
-              <line x1="255" y1="198" x2="255" y2="382" />
-              <line x1="163" y1="290" x2="347" y2="290" />
-              <line x1="190" y1="225" x2="320" y2="355" />
-              <line x1="320" y1="225" x2="190" y2="355" />
+
+            <g className="bike-frame">
+              <line x1="300" y1="245" x2="445" y2="206" />
+              <line x1="445" y1="206" x2="545" y2="132" />
+              <line x1="380" y1="160" x2="300" y2="245" />
+              <line x1="380" y1="160" x2="356" y2="245" />
+              <line x1="356" y1="245" x2="468" y2="270" />
+              <line x1="468" y1="270" x2="585" y2="285" />
+              <line x1="300" y1="245" x2="245" y2="338" />
+              <line x1="585" y1="285" x2="545" y2="338" />
             </g>
-            <g className="bike-frame" filter="url(#bikeGlow)">
-              <path d="M255 290 L360 170 L450 290 L545 290 L462 170 L360 170 L255 290" />
-              <path d="M360 170 L345 128 L430 128" />
-              <path d="M462 170 L520 106 L612 112" />
-              <path d="M520 106 L592 84" />
-              <path d="M450 290 L405 246" />
-              <circle className="crank" cx="405" cy="246" r="18" />
-              <path className="pedal" d="M405 246 L450 220" />
-              <path className="pedal pedal-two" d="M405 246 L360 272" />
+
+            <g className="bike-details">
+              <line x1="380" y1="160" x2="372" y2="122" />
+              <path d="M334 121 Q362 109 393 116 Q382 131 351 134 Z" className="saddle" />
+              <line x1="545" y1="132" x2="575" y2="104" />
+              <line x1="575" y1="104" x2="640" y2="104" />
+              <path d="M634 95 Q655 102 646 123" className="handlebars" />
+              <rect className="bike-console" x="594" y="82" width="34" height="20" rx="4" />
+              <path d="M404 185 L436 195 L427 224 L394 214 Z" className="bottle" />
+            </g>
+
+            <g className="drive-system">
+              <path
+                className="chain-guard"
+                d="M405 240 Q455 202 532 222 Q580 238 602 286 Q586 316 545 324 L440 324 Q416 302 405 240 Z"
+              />
+              <circle className="flywheel outer" cx="590" cy="283" r="78" />
+              <circle className="flywheel inner" cx="590" cy="283" r="56" />
+              <circle className="flywheel core" cx="590" cy="283" r="12" />
+              <circle className="crank outer" cx="468" cy="270" r="28" />
+              <circle className="crank inner" cx="468" cy="270" r="10" />
+              <line className="crank-arm" x1="468" y1="270" x2="505" y2="240" />
+              <line className="crank-arm" x1="468" y1="270" x2="430" y2="297" />
+              <line className="pedal" x1="505" y1="240" x2="528" y2="240" />
+              <line className="pedal" x1="430" y1="297" x2="406" y2="297" />
             </g>
           </svg>
         );
