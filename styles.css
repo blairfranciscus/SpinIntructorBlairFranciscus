@@ -137,7 +137,7 @@ button:disabled {
 
 .brand-mark {
   display: grid;
-  gap: 0;
+  gap: 3px;
   padding: 8px 12px;
   color: var(--text);
   text-align: left;
@@ -146,15 +146,110 @@ button:disabled {
   border: 0;
 }
 
-.brand-mark span {
+.brand-mark > span {
   color: var(--green);
   font-size: 0.72rem;
   font-weight: 800;
 }
 
-.brand-mark strong {
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.brand-logo {
+  --logo-word-size: 1rem;
+  --logo-mark-size: 1.55rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.34rem;
+  color: var(--text);
+  line-height: 1;
+}
+
+.brand-logo.is-large {
+  --logo-word-size: clamp(2.35rem, 7vw, 5.5rem);
+  --logo-mark-size: clamp(2.8rem, 7.8vw, 6.2rem);
+  gap: clamp(0.45rem, 1vw, 0.92rem);
+}
+
+.brand-logo-word {
   font-family: "Space Grotesk", Inter, sans-serif;
+  font-size: var(--logo-word-size);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.brand-logo-mark {
+  width: var(--logo-mark-size);
+  height: var(--logo-mark-size);
+  overflow: visible;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 0 16px rgba(0, 212, 255, 0.18));
+}
+
+.brand-logo-outer {
+  fill: rgba(255, 255, 255, 0.06);
+  stroke: rgba(246, 248, 255, 0.9);
+  stroke-width: 5;
+}
+
+.brand-logo-inner {
+  fill: none;
+  stroke: rgba(0, 212, 255, 0.42);
+  stroke-width: 3;
+}
+
+.brand-logo-spoke {
+  stroke: rgba(246, 248, 255, 0.3);
+  stroke-width: 2.2;
+}
+
+.brand-logo-core {
+  fill: rgba(246, 248, 255, 0.92);
+}
+
+.brand-logo-arc {
+  fill: none;
+  stroke: rgba(45, 248, 160, 0.72);
+  stroke-width: 4.5;
+  stroke-linecap: round;
+}
+
+.brand-logo-tick {
+  fill: var(--acid);
+}
+
+.brand-mark .brand-logo-word {
   font-size: 1rem;
+  letter-spacing: 0.06em;
+}
+
+.brand-mark .brand-logo-mark {
+  width: 1.55rem;
+  height: 1.55rem;
+}
+
+.hero-brand {
+  display: grid;
+  justify-items: center;
+  width: 100%;
+}
+
+.hero-brand .brand-logo {
+  justify-content: center;
+}
+
+.hero-brand .brand-logo-word {
+  text-shadow: 0 0 18px rgba(0, 212, 255, 0.14);
 }
 
 .gear-dial-wrap {
@@ -648,16 +743,19 @@ p {
 
 .bike-silhouette {
   position: absolute;
-  right: -8px;
-  bottom: 40px;
-  width: min(800px, 108%);
+  right: -18px;
+  bottom: 26px;
+  width: min(820px, 108%);
   overflow: visible;
-  filter: drop-shadow(0 26px 30px rgba(0, 0, 0, 0.45));
+  filter:
+    drop-shadow(0 28px 32px rgba(0, 0, 0, 0.42))
+    drop-shadow(0 0 18px rgba(0, 212, 255, 0.08));
 }
 
 .bike-silhouette line,
-.bike-silhouette path {
-  fill: none;
+.bike-silhouette path,
+.bike-silhouette rect,
+.bike-silhouette circle {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
@@ -666,85 +764,129 @@ p {
   fill: rgba(0, 0, 0, 0.34);
 }
 
-.bike-silhouette .bike-base line {
-  stroke: #49505c;
-  stroke-width: 15;
-}
-
-.bike-silhouette .bike-frame line {
-  stroke: #d9dee8;
-  stroke-width: 15;
-}
-
-.bike-silhouette .bike-details line {
-  stroke: #9aa3af;
-  stroke-width: 11;
-}
-
-.bike-silhouette .saddle {
-  fill: #1c212b;
-  stroke: #d9dee8;
-  stroke-width: 5;
-}
-
-.bike-silhouette .handlebars {
-  stroke: #1b2029;
-  stroke-width: 10;
-}
-
-.bike-silhouette .bike-console {
-  fill: rgba(232, 238, 247, 0.14);
-  stroke: rgba(232, 238, 247, 0.26);
+.bike-silhouette .stabilizer {
+  fill: rgba(255, 255, 255, 0.06);
+  stroke: rgba(246, 248, 255, 0.18);
   stroke-width: 2;
 }
 
-.bike-silhouette .bottle {
-  fill: rgba(0, 212, 255, 0.14);
-  stroke: rgba(216, 226, 238, 0.42);
+.bike-silhouette .transport-wheel {
+  fill: rgba(8, 10, 14, 0.9);
+  stroke: rgba(246, 248, 255, 0.18);
+  stroke-width: 3;
+}
+
+.bike-silhouette .front-fork,
+.bike-silhouette .main-beam,
+.bike-silhouette .seat-tube,
+.bike-silhouette .rear-stay,
+.bike-silhouette .rear-leg {
+  fill: rgba(12, 16, 22, 0.82);
+  stroke: rgba(246, 248, 255, 0.22);
+  stroke-width: 3;
+}
+
+.bike-silhouette .body-inset {
+  fill: rgba(0, 212, 255, 0.12);
+  stroke: rgba(246, 248, 255, 0.12);
+  stroke-width: 1.5;
+}
+
+.bike-silhouette .handlebar-post,
+.bike-silhouette .console-arm,
+.bike-silhouette .seat-post {
+  fill: rgba(16, 21, 28, 0.84);
+  stroke: rgba(246, 248, 255, 0.2);
+  stroke-width: 2.5;
+}
+
+.bike-silhouette .bike-console {
+  fill: rgba(8, 11, 16, 0.92);
+  stroke: rgba(0, 212, 255, 0.35);
+  stroke-width: 2;
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.18);
+}
+
+.bike-silhouette .handlebars {
+  fill: none;
+  stroke: rgba(246, 248, 255, 0.86);
+  stroke-width: 8;
+  filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.14));
+}
+
+.bike-silhouette .saddle {
+  fill: rgba(15, 20, 27, 0.94);
+  stroke: rgba(246, 248, 255, 0.24);
+  stroke-width: 2.5;
+}
+
+.bike-silhouette .front-shroud {
+  fill: rgba(10, 13, 18, 0.9);
+  stroke: rgba(246, 248, 255, 0.22);
   stroke-width: 3;
 }
 
 .bike-silhouette .chain-guard {
-  fill: #141820;
-  stroke: #59606d;
-  stroke-width: 7;
+  fill: rgba(14, 19, 26, 0.88);
+  stroke: rgba(246, 248, 255, 0.18);
+  stroke-width: 3;
 }
 
 .bike-silhouette .flywheel.outer {
-  fill: rgba(12, 14, 18, 0.68);
-  stroke: #aeb7c4;
-  stroke-width: 12;
+  fill: rgba(8, 11, 16, 0.82);
+  stroke: rgba(246, 248, 255, 0.24);
+  stroke-width: 4;
 }
 
 .bike-silhouette .flywheel.inner {
   fill: none;
-  stroke: rgba(220, 228, 239, 0.32);
-  stroke-width: 7;
-  stroke-dasharray: 8 14;
+  stroke: rgba(0, 212, 255, 0.34);
+  stroke-width: 3;
+  filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.16));
 }
 
 .bike-silhouette .flywheel.core {
-  fill: #dfe6ef;
+  fill: rgba(246, 248, 255, 0.72);
 }
 
 .bike-silhouette .crank.outer {
-  fill: #10141a;
-  stroke: #77808c;
-  stroke-width: 7;
+  fill: rgba(10, 13, 18, 0.92);
+  stroke: rgba(246, 248, 255, 0.2);
+  stroke-width: 3;
 }
 
 .bike-silhouette .crank.inner {
-  fill: #dfe6ef;
+  fill: rgba(246, 248, 255, 0.6);
 }
 
 .bike-silhouette .crank-arm {
-  stroke: #b1bac7;
-  stroke-width: 8;
+  stroke: rgba(246, 248, 255, 0.5);
+  stroke-width: 5;
 }
 
-.bike-silhouette .pedal {
-  stroke: #1a2028;
-  stroke-width: 8;
+.bike-silhouette .pedal-arm {
+  stroke: rgba(246, 248, 255, 0.54);
+  stroke-width: 4;
+}
+
+.bike-silhouette .pedal-platform {
+  fill: rgba(10, 13, 18, 0.92);
+  stroke: rgba(246, 248, 255, 0.24);
+  stroke-width: 2;
+}
+
+.bike-silhouette .accent-bottle {
+  fill: rgba(45, 248, 160, 0.72);
+  filter: drop-shadow(0 0 8px rgba(45, 248, 160, 0.24));
+}
+
+.bike-silhouette .accent-stripe {
+  fill: rgba(255, 59, 127, 0.78);
+}
+
+.bike-silhouette .accent-knob {
+  fill: var(--acid);
+  filter: drop-shadow(0 0 8px rgba(215, 255, 56, 0.3));
 }
 
 .studio-floor {
@@ -913,95 +1055,277 @@ p {
   position: absolute;
   display: block;
   border-radius: 999px;
-  background: var(--text);
-  box-shadow: 0 0 18px rgba(255, 255, 255, 0.25);
+  transition: 420ms ease;
+}
+
+.demo-base,
+.demo-flywheel,
+.demo-body,
+.demo-frame-beam,
+.demo-seat-post,
+.demo-handlebar-post,
+.demo-bike,
+.demo-seat,
+.demo-handlebars,
+.demo-crank {
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.14);
   transition: 420ms ease;
 }
 
 .rider-head {
-  width: 34px;
-  height: 34px;
-  left: 48%;
-  top: 66px;
+  width: 24px;
+  height: 24px;
+  left: 52%;
+  top: 84px;
+  background: var(--text);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.22);
 }
 
 .rider-torso {
-  width: 18px;
+  width: 15px;
   height: 102px;
-  left: 50%;
-  top: 108px;
-  transform: rotate(-18deg);
+  left: 51%;
+  top: 106px;
+  background: var(--text);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.22);
+  transform: rotate(28deg);
   transform-origin: top;
 }
 
 .rider-arm {
-  width: 104px;
-  height: 12px;
-  top: 137px;
-  left: 51%;
-  transform: rotate(18deg);
+  width: 62px;
+  height: 9px;
+  top: 136px;
+  left: 54%;
+  background: var(--text);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.22);
+  transform: rotate(-18deg);
+  transform-origin: left center;
 }
 
 .arm-two {
-  top: 158px;
-  transform: rotate(10deg);
+  top: 148px;
+  left: 54%;
+  transform: rotate(-26deg);
 }
 
-.rider-leg {
-  width: 124px;
-  height: 13px;
-  left: 43%;
-  top: 212px;
+.rider-thigh,
+.rider-shin {
+  height: 12px;
+  transform-origin: left center;
+  box-shadow: 0 0 16px rgba(0, 212, 255, 0.18);
+}
+
+.rider-thigh {
+  width: 72px;
+  background: var(--blue);
+}
+
+.rider-shin {
+  width: 66px;
+  background: var(--pink);
+}
+
+.thigh-one {
+  left: 49%;
+  top: 206px;
   transform: rotate(28deg);
-  background: var(--blue) !important;
 }
 
-.leg-two {
-  top: 222px;
-  left: 48%;
-  transform: rotate(122deg);
-  background: var(--pink) !important;
+.shin-one {
+  left: 58%;
+  top: 236px;
+  transform: rotate(82deg);
+}
+
+.thigh-two {
+  left: 49%;
+  top: 210px;
+  transform: rotate(164deg);
+}
+
+.shin-two {
+  left: 42%;
+  top: 193px;
+  transform: rotate(54deg);
+}
+
+.demo-base {
+  width: 122px;
+  height: 12px;
+  bottom: 68px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.base-rear {
+  left: 24%;
+}
+
+.base-front {
+  left: 50%;
+}
+
+.demo-flywheel {
+  width: 76px;
+  height: 76px;
+  left: 27%;
+  top: 216px;
+  border: 8px solid rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.demo-body {
+  width: 98px;
+  height: 36px;
+  left: 35%;
+  top: 228px;
+  border-radius: 18px 28px 18px 18px;
+  background: rgba(255, 255, 255, 0.08);
+  transform: rotate(8deg);
+}
+
+.demo-frame-beam {
+  width: 110px;
+  height: 11px;
+  left: 38%;
+  top: 196px;
+  background: rgba(255, 255, 255, 0.56);
+  transform: rotate(-16deg);
+}
+
+.demo-seat-post {
+  width: 11px;
+  height: 60px;
+  left: 46%;
+  top: 154px;
+  background: rgba(255, 255, 255, 0.42);
+  transform: rotate(18deg);
+}
+
+.demo-handlebar-post {
+  width: 11px;
+  height: 78px;
+  left: 60%;
+  top: 138px;
+  background: rgba(255, 255, 255, 0.4);
+  transform: rotate(-22deg);
 }
 
 .demo-bike {
-  width: 56%;
-  height: 68px;
-  left: 24%;
-  bottom: 66px;
-  border: 6px solid rgba(255, 255, 255, 0.28);
-  background: transparent !important;
+  width: 74px;
+  height: 10px;
+  left: 42%;
+  top: 236px;
+  background: rgba(255, 255, 255, 0.38);
+  transform: rotate(28deg);
+}
+
+.demo-seat {
+  width: 18px;
+  height: 7px;
+  left: 45%;
+  top: 178px;
+  border-radius: 8px 12px 8px 9px;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.demo-handlebars {
+  width: 64px;
+  height: 9px;
+  left: 61%;
+  top: 132px;
+  background: rgba(255, 255, 255, 0.56);
+  transform: rotate(-30deg);
+  transform-origin: left center;
+}
+
+.demo-crank {
+  width: 26px;
+  height: 26px;
+  left: 43%;
+  top: 242px;
+  border: 5px solid rgba(255, 255, 255, 0.32);
+  background: transparent;
 }
 
 .posture-demo.standing .rider-head {
-  top: 38px;
-  left: 54%;
+  top: 60px;
+  left: 48%;
 }
 
 .posture-demo.standing .rider-torso {
-  top: 80px;
-  left: 55%;
-  transform: rotate(12deg);
+  top: 82px;
+  left: 49%;
+  height: 112px;
+  transform: rotate(42deg);
 }
 
 .posture-demo.standing .rider-arm {
-  top: 115px;
-  left: 55%;
+  top: 118px;
+  left: 52%;
+  width: 66px;
+  transform: rotate(-16deg);
 }
 
 .posture-demo.standing .arm-two {
+  top: 130px;
+  left: 52%;
+  transform: rotate(-24deg);
+}
+
+.posture-demo.standing .thigh-one {
+  left: 50%;
+  top: 198px;
+  transform: rotate(70deg);
+}
+
+.posture-demo.standing .shin-one {
+  left: 58%;
+  top: 240px;
+  transform: rotate(86deg);
+}
+
+.posture-demo.standing .thigh-two {
+  left: 50%;
+  top: 198px;
+  transform: rotate(126deg);
+}
+
+.posture-demo.standing .shin-two {
+  left: 42%;
+  top: 220px;
+  transform: rotate(44deg);
+}
+
+.posture-demo.standing .demo-seat-post {
+  left: 46%;
+  top: 154px;
+}
+
+.posture-demo.standing .demo-seat {
+  width: 16px;
+  height: 7px;
+  left: 45%;
+  top: 179px;
+}
+
+.posture-demo.standing .demo-handlebar-post {
+  left: 59%;
   top: 136px;
+  transform: rotate(-20deg);
 }
 
-.posture-demo.standing .rider-leg {
-  top: 206px;
-  left: 48%;
-  transform: rotate(72deg);
+.posture-demo.standing .demo-handlebars {
+  left: 60%;
+  top: 130px;
+  transform: rotate(-28deg);
 }
 
-.posture-demo.standing .leg-two {
-  top: 200px;
-  left: 41%;
-  transform: rotate(118deg);
+.posture-demo.standing .demo-crank {
+  left: 43%;
+  top: 242px;
 }
 
 .metric-grid {
@@ -1761,9 +2085,9 @@ p {
   }
 
   .bike-silhouette {
-    right: -28px;
-    bottom: 24px;
-    width: 118%;
+    right: -34px;
+    bottom: 18px;
+    width: 120%;
   }
 
   .metric-grid,

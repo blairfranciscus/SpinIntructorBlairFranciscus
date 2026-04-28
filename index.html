@@ -33,6 +33,7 @@
       ];
 
       const neonWords = ["DIG DEEP", "BE HERE", "STAY MOVING", "POWER THROUGH"];
+      const logoSpokes = Array.from({ length: 10 }, (_, index) => index);
 
       const bikeParts = [
         {
@@ -522,7 +523,7 @@
           <nav className={`gear-nav ${showHomeNav ? "is-visible" : "is-hidden"} ${isHome ? "is-home" : ""}`} aria-label="Resistance dial navigation">
             <button className="brand-mark" onClick={() => onNavigate("home")} aria-label="Go home">
               <span>Built on BPM</span>
-              <strong>Ride Lab</strong>
+              <BrandLogo />
             </button>
             <div className="gear-dial-wrap">
               <button className="dial-step dial-step-left" onClick={goBack} aria-label="Turn dial backward">
@@ -576,7 +577,8 @@
             <div className="hero-copy">
               <NeonWordWall />
               <div className={`hero-brand ${brandVisible ? "is-visible" : ""}`}>
-                <h1>Ride Lab</h1>
+                <h1 className="sr-only">Ride Lab</h1>
+                <BrandLogo large />
               </div>
               <div className={`hero-support ${brandVisible ? "is-visible" : ""}`}>
                 <HomeGearIntro gear={gear} onIncreaseGear={onIncreaseGear} />
@@ -697,55 +699,85 @@
         );
       }
 
+      function BrandLogo({ large = false }) {
+        return (
+          <div className={`brand-logo ${large ? "is-large" : "is-compact"}`} aria-hidden="true">
+            <span className="brand-logo-word">Ride</span>
+            <svg className="brand-logo-mark" viewBox="0 0 120 120" role="presentation">
+              <circle className="brand-logo-outer" cx="60" cy="60" r="48" />
+              <circle className="brand-logo-inner" cx="60" cy="60" r="33" />
+              {logoSpokes.map((index) => (
+                <line
+                  key={index}
+                  className="brand-logo-spoke"
+                  x1="60"
+                  y1="26"
+                  x2="60"
+                  y2="94"
+                  transform={`rotate(${index * 36} 60 60)`}
+                />
+              ))}
+              <circle className="brand-logo-core" cx="60" cy="60" r="11" />
+              <path className="brand-logo-arc" d="M89 33 A36 36 0 0 1 98 60" />
+              <circle className="brand-logo-tick" cx="91" cy="30" r="4.5" />
+            </svg>
+            <span className="brand-logo-word">Lab</span>
+          </div>
+        );
+      }
+
       function BikeSilhouette() {
         return (
           <svg className="bike-silhouette" viewBox="0 0 820 430" role="img" aria-label="Indoor cycling bike illustration">
-            <ellipse className="bike-shadow" cx="430" cy="354" rx="245" ry="28" />
+            <ellipse className="bike-shadow" cx="408" cy="362" rx="260" ry="24" />
 
             <g className="bike-base">
-              <line x1="150" y1="338" x2="325" y2="338" />
-              <line x1="505" y1="338" x2="690" y2="338" />
-              <line x1="170" y1="326" x2="170" y2="350" />
-              <line x1="305" y1="326" x2="305" y2="350" />
-              <line x1="525" y1="326" x2="525" y2="350" />
-              <line x1="670" y1="326" x2="670" y2="350" />
+              <path className="stabilizer front" d="M128 334 L322 334 L340 350 L146 350 Z" />
+              <path className="stabilizer rear" d="M474 336 L704 336 L721 352 L491 352 Z" />
+              <circle className="transport-wheel" cx="164" cy="352" r="8" />
+              <circle className="transport-wheel" cx="300" cy="352" r="8" />
+              <circle className="transport-wheel" cx="517" cy="354" r="8" />
+              <circle className="transport-wheel" cx="685" cy="354" r="8" />
             </g>
 
             <g className="bike-frame">
-              <line x1="300" y1="245" x2="445" y2="206" />
-              <line x1="445" y1="206" x2="545" y2="132" />
-              <line x1="380" y1="160" x2="300" y2="245" />
-              <line x1="380" y1="160" x2="356" y2="245" />
-              <line x1="356" y1="245" x2="468" y2="270" />
-              <line x1="468" y1="270" x2="585" y2="285" />
-              <line x1="300" y1="245" x2="245" y2="338" />
-              <line x1="585" y1="285" x2="545" y2="338" />
+              <path className="front-fork" d="M284 246 L249 334 L225 334 L259 246 Z" />
+              <path className="main-beam" d="M285 246 L413 214 L500 250 L396 282 L301 279 Z" />
+              <path className="seat-tube" d="M412 214 L455 154 L476 160 L449 243 L420 246 Z" />
+              <path className="rear-stay" d="M450 243 L568 278 L548 299 L427 273 Z" />
+              <path className="rear-leg" d="M548 299 L580 336 L551 336 L523 301 Z" />
+              <path className="body-inset" d="M319 255 L399 229 L454 252 L393 271 Z" />
             </g>
 
-            <g className="bike-details">
-              <line x1="380" y1="160" x2="372" y2="122" />
-              <path d="M334 121 Q362 109 393 116 Q382 131 351 134 Z" className="saddle" />
-              <line x1="545" y1="132" x2="575" y2="104" />
-              <line x1="575" y1="104" x2="640" y2="104" />
-              <path d="M634 95 Q655 102 646 123" className="handlebars" />
-              <rect className="bike-console" x="594" y="82" width="34" height="20" rx="4" />
-              <path d="M404 185 L436 195 L427 224 L394 214 Z" className="bottle" />
+            <g className="bike-cockpit">
+              <path className="handlebar-post" d="M312 177 L281 124 L295 116 L329 167 Z" />
+              <path className="console-arm" d="M283 124 L238 117 L238 129 L281 135 Z" />
+              <rect className="bike-console" x="216" y="103" width="38" height="24" rx="4" transform="rotate(-6 216 103)" />
+              <path className="handlebars" d="M238 119 Q208 107 177 111 Q159 114 146 126 Q159 133 179 132 L222 132 Q241 131 249 124" />
+              <path className="seat-post" d="M455 154 L469 109 L482 112 L468 159 Z" />
+              <path className="saddle" d="M447 103 Q476 95 512 101 Q502 115 476 120 Q454 123 442 115 Z" />
             </g>
 
             <g className="drive-system">
-              <path
-                className="chain-guard"
-                d="M405 240 Q455 202 532 222 Q580 238 602 286 Q586 316 545 324 L440 324 Q416 302 405 240 Z"
-              />
-              <circle className="flywheel outer" cx="590" cy="283" r="78" />
-              <circle className="flywheel inner" cx="590" cy="283" r="56" />
-              <circle className="flywheel core" cx="590" cy="283" r="12" />
-              <circle className="crank outer" cx="468" cy="270" r="28" />
-              <circle className="crank inner" cx="468" cy="270" r="10" />
-              <line className="crank-arm" x1="468" y1="270" x2="505" y2="240" />
-              <line className="crank-arm" x1="468" y1="270" x2="430" y2="297" />
-              <line className="pedal" x1="505" y1="240" x2="528" y2="240" />
-              <line className="pedal" x1="430" y1="297" x2="406" y2="297" />
+              <circle className="flywheel outer" cx="248" cy="282" r="88" />
+              <circle className="flywheel inner" cx="248" cy="282" r="61" />
+              <circle className="flywheel core" cx="248" cy="282" r="14" />
+              <path className="front-shroud" d="M206 205 Q174 232 165 281 Q170 335 223 350 L292 350 Q327 336 333 290 Q329 239 289 208 Z" />
+              <path className="chain-guard" d="M301 231 Q349 215 389 238 Q416 255 424 289 Q411 315 382 324 L306 324 Q286 303 290 268 Q291 244 301 231 Z" />
+              <circle className="crank outer" cx="356" cy="278" r="26" />
+              <circle className="crank inner" cx="356" cy="278" r="8" />
+              <line className="crank-arm" x1="356" y1="278" x2="392" y2="249" />
+              <line className="crank-arm" x1="356" y1="278" x2="320" y2="307" />
+              <line className="pedal-arm" x1="392" y1="249" x2="411" y2="249" />
+              <line className="pedal-arm" x1="320" y1="307" x2="300" y2="307" />
+              <rect className="pedal-platform" x="410" y="244" width="32" height="10" rx="4" />
+              <rect className="pedal-platform" x="270" y="302" width="32" height="10" rx="4" />
+            </g>
+
+            <g className="bike-accents">
+              <path className="accent-bottle" d="M430 191 L448 195 L441 224 L424 220 Z" />
+              <path className="accent-stripe" d="M531 304 L546 309 L531 335 L516 330 Z" />
+              <circle className="accent-knob" cx="431" cy="226" r="6" />
             </g>
           </svg>
         );
@@ -805,13 +837,25 @@
                 </div>
               </div>
               <div className={`posture-demo ${position}`}>
+                <span className="demo-base base-rear"></span>
+                <span className="demo-base base-front"></span>
+                <span className="demo-flywheel"></span>
+                <span className="demo-body"></span>
+                <span className="demo-frame-beam"></span>
+                <span className="demo-seat-post"></span>
+                <span className="demo-handlebar-post"></span>
+                <span className="demo-bike"></span>
+                <span className="demo-seat"></span>
+                <span className="demo-handlebars"></span>
+                <span className="demo-crank"></span>
                 <span className="rider-head"></span>
                 <span className="rider-torso"></span>
                 <span className="rider-arm arm-one"></span>
                 <span className="rider-arm arm-two"></span>
-                <span className="rider-leg leg-one"></span>
-                <span className="rider-leg leg-two"></span>
-                <span className="demo-bike"></span>
+                <span className="rider-thigh thigh-one"></span>
+                <span className="rider-shin shin-one"></span>
+                <span className="rider-thigh thigh-two"></span>
+                <span className="rider-shin shin-two"></span>
               </div>
             </div>
 
