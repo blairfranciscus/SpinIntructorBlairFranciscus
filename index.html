@@ -28,7 +28,7 @@
         { id: "set", short: "Set", label: "Set the Ride", eyebrow: "01" },
         { id: "beat", short: "Beat", label: "Build the Beat", eyebrow: "02" },
         { id: "movement", short: "Move", label: "Lead Movement", eyebrow: "03" },
-        { id: "finish", short: "Close", label: "Finish Room", eyebrow: "04" },
+        { id: "finish", short: "Lap", label: "The Final Lap", eyebrow: "04" },
         { id: "wireframe", short: "Plan", label: "Wireframe", eyebrow: "WF" },
       ];
 
@@ -90,16 +90,46 @@
       ];
 
       const language = [
-        "Find the beat",
-        "Add two turns",
-        "Light gear, fast legs",
-        "Heavy hill",
-        "Active recovery",
-        "In the saddle",
-        "Out of the saddle",
-        "Hold the resistance",
-        "Isolation",
-        "Bounce it out",
+        {
+          term: "Find the beat",
+          detail: "Match the pedal stroke to the rhythm before layering on speed or choreography.",
+        },
+        {
+          term: "Add two turns",
+          detail: "Ask for a small, specific bump in resistance instead of a vague push harder cue.",
+        },
+        {
+          term: "Light gear, fast legs",
+          detail: "Keep the resistance manageable so cadence can rise without the rider bouncing.",
+        },
+        {
+          term: "Heavy hill",
+          detail: "Coach more resistance, slower cadence, and a stable upper body.",
+        },
+        {
+          term: "Active recovery",
+          detail: "Ease the effort but keep the legs moving with intention between pushes.",
+        },
+        {
+          term: "In the saddle",
+          detail: "Stay seated with ribs stacked over hips and pressure light through the hands.",
+        },
+        {
+          term: "Out of the saddle",
+          detail: "Hover or stand with enough resistance to support the body over the pedals.",
+        },
+        {
+          term: "Hold the resistance",
+          detail: "Keep the same gear through the effort so the challenge stays consistent.",
+        },
+        {
+          term: "Isolation",
+          detail: "Limit movement to one body part so the rest of the ride stays quiet and controlled.",
+        },
+        {
+          term: "Bounce it out",
+          detail: "Use a loose, rhythmic release moment only when the room and the beat can support it.",
+        },
       ];
 
       const knownSongProfiles = {
@@ -321,23 +351,23 @@
       const closingMoods = {
         gratitude: {
           title: "Gratitude",
-          line: "Thank yourself for showing up when no one made you. Keep the pedals moving and let that be enough.",
-          ritual: "Dim lights, one hand to heart, one final breath before the stretch flow.",
+          line: "You don't have to, you get to.",
+          ritual: "Dim lights, slow the room down, and finish by treating your body like it belongs to someone you love.",
         },
         empowerment: {
           title: "Empowerment",
-          line: "You did not need perfect. You needed effort, rhythm, and the choice to stay with yourself.",
-          ritual: "Lights return for one final ride together, then hands up on the last beat.",
+          line: "Remind yourself that you can do difficult things.",
+          ritual: "Bring the lights up for the last push and coach the room with: you are stronger than you think.",
         },
         release: {
           title: "Release",
-          line: "Whatever came in with you can leave on the floor. Keep moving, soften your shoulders, unclench your jaw.",
-          ritual: "Slow roll, long exhale, stretch quads and hamstrings before stepping down.",
+          line: "If you can't get out of it, get into it.",
+          ritual: "Keep the legs easy, soften the shoulders, and let the long exhale do the work before stretch.",
         },
         reflection: {
           title: "Reflection",
-          line: "No one is watching you. This room is yours for one quiet minute, and your body already knows what to do.",
-          ritual: "Lights off, low cadence, then a collective inhale, exhale, clap, wipe down.",
+          line: "How you do anything is how you do everything.",
+          ritual: "Low cadence, steady breath, and one quiet minute to notice what changed before the room resets.",
         },
       };
 
@@ -668,7 +698,7 @@
           <div className="home-gear-intro">
             <div className="home-gear-copy">
               <span>{`Gear: ${gear}`}</span>
-              <p>{gear < 1 ? "Give it a turn to the right to start your ride." : "Gear 1 engaged. The room is open."}</p>
+              <p>{gear < 1 ? "Turn the gear to the right to start your ride." : "Gear 1 engaged. The room is open."}</p>
             </div>
             <button
               ref={knobRef}
@@ -680,6 +710,20 @@
               disabled={gear >= 1}
               aria-label="Turn gear to the right from zero to one"
             >
+              {gear < 1 && <span className="home-gear-arc" aria-hidden="true"></span>}
+              {gear < 1 && (
+                <span
+                  className="home-gear-motion"
+                  style={{ transform: `translateX(-50%) rotate(${Math.min(turnProgress, 52)}deg)` }}
+                  aria-hidden="true"
+                >
+                  <svg viewBox="0 0 120 60" role="presentation">
+                    <path className="motion-curve" d="M18 40 C38 18, 76 16, 97 28" />
+                    <path className="motion-head-fill" d="M91 20 L106 28 L92 37 Z" />
+                    <path className="motion-head-stroke" d="M91 20 L106 28 L92 37 Z" />
+                  </svg>
+                </span>
+              )}
               <span className="home-gear-ring" style={{ transform: `rotate(${turnProgress}deg)` }}></span>
               <span className="home-gear-core">
                 <small>{gear < 1 ? "Turn Right" : "Gear Set"}</small>
@@ -796,6 +840,7 @@
       function SetRidePage() {
         const [activePart, setActivePart] = useState(bikeParts[0]);
         const [position, setPosition] = useState("seated");
+        const [activeLanguage, setActiveLanguage] = useState(language[0]);
 
         return (
           <section className="content-page set-page">
@@ -853,10 +898,21 @@
 
             <section className="language-strip">
               <p className="eyebrow">Know the language</p>
-              <div>
-                {language.map((term) => (
-                  <span key={term}>{term}</span>
-                ))}
+              <div className="language-interactive">
+                <div className="language-rail" role="tablist" aria-label="Cycling cue glossary">
+                  {language.map((item) => (
+                    <button
+                      key={item.term}
+                      className={activeLanguage.term === item.term ? "active" : ""}
+                      onClick={() => setActiveLanguage(item)}
+                      role="tab"
+                      aria-selected={activeLanguage.term === item.term}
+                    >
+                      {item.term}
+                    </button>
+                  ))}
+                </div>
+                <p className="language-detail">{activeLanguage.detail}</p>
               </div>
             </section>
           </section>
@@ -1194,10 +1250,10 @@
         const [mood, setMood] = useState("gratitude");
         const [revealed, setRevealed] = useState([]);
         const affirmations = [
-          "No one is watching you. Take the version of the ride your body needs.",
-          "You can slow down. You can add gear. You can change the shape. Just keep moving.",
-          "Thank your body for carrying you through one more room, one more song, one more breath.",
-          "Lights come back on, and we take the final push together.",
+          "You are the gatekeeper to your own success.",
+          "Your mind is your strongest muscle.",
+          "If you think you can't, change your mind.",
+          "Love ya self, boo.",
         ];
 
         const toggleAffirmation = (index) => {
@@ -1208,15 +1264,14 @@
 
         return (
           <section className="content-page finish-page">
-            <SectionHeader eyebrow="Step 4" title="Finish the Room">
-              The ending is not a drop-off. It is the moment where the class understands why they
-              stayed, breathes together, and leaves the bike with a little more ground under them.
+            <SectionHeader eyebrow="Step 4" title="The Final Lap">
+              A strong close gives riders a clear exhale, a final cue, and a message worth taking
+              with them when they step off the bike.
             </SectionHeader>
 
             <div className="finish-layout">
               <ClosingMoodSelector mood={mood} onMoodChange={setMood} />
               <article className="closing-script">
-                <p className="eyebrow">{closingMoods[mood].title} closing</p>
                 <h3>{closingMoods[mood].line}</h3>
                 <p>{closingMoods[mood].ritual}</p>
                 <div className="ending-songs">
@@ -1281,7 +1336,7 @@
           ["Set the Ride", "Clickable bike diagram, form toggle, metric cards, terminology strip."],
           ["Build the Beat", "iTunes song search, BPM/class logic, song card, localStorage playlist panel."],
           ["Lead the Movement", "Movement filters, expandable cards, build-a-sequence interaction."],
-          ["Finish the Room", "Mood selector, affirmation reveal cards, cooldown ritual timeline."],
+          ["The Final Lap", "Mood selector, affirmation reveal cards, cooldown ritual timeline."],
         ];
         return (
           <div className="wireframe-doc">
